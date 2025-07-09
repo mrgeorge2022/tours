@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jexpedition - Vive tus aventuras</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+<!-- HERO + BUSCADOR UNIFICADO (versión sencilla, sin div envolvente) -->
+<section id="hero-jexp">
+  <div class="hero-simple-header">
+    <span class="hero-logo">Jexpedition</span>
+      <div class="hero-categorias">
+    <button onclick="filtrarPorCategoria('viaje')" class="cat-btn">Viajes</button>
+    <button onclick="filtrarPorCategoria('pasadía')" class="cat-btn">Pasadías</button>
+    <button onclick="filtrarPorCategoria('tour')" class="cat-btn">Tour</button>
+  </div>
+    <button id="idioma-moneda-btn" onclick="abrirModalIdiomaMoneda()" aria-label="Cambiar idioma y moneda" class="idioma-moneda-btn">
+      🌐
+    </button>
+  </div>
+
+<form class="hero-buscador" onsubmit="buscarActividades(); return false;">
+  <div class="buscador-contenedor">
+    <input type="text" id="search" placeholder="¿A dónde quieres ir?" autocomplete="off" />
+    <button id="buscar-btn" type="submit" aria-label="Buscar">
+      🔍
+    </button>
+  </div>
+</form>
+
+</section>
+
+<!-- MODAL IDIOMA/MONEDA -->
+<div id="modal-idioma-moneda" class="modal-idioma-moneda">
+  <div class="modal-idioma-moneda-content">
+    <button onclick="cerrarModalIdiomaMoneda()" aria-label="Cerrar" class="modal-cerrar">&times;</button>
+    <h3 id="modal-titulo">Cambiar idioma y moneda</h3>
+    <div class="modal-row">
+      <label for="idioma-select-modal">Idioma:</label>
+      <select id="idioma-select-modal" aria-label="Seleccionar idioma">
+        <option value="es">Español</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+    <div class="modal-row">
+      <label for="moneda-select-modal">Moneda:</label>
+      <select id="moneda-select-modal" aria-label="Seleccionar moneda">
+        <option value="COP">Peso colombiano (COP)</option>
+        <option value="USD">Dólar estadounidense (USD)</option>
+        <option value="EUR">Euro (EUR)</option>
+      </select>
+    </div>
+    <button onclick="guardarIdiomaMoneda()" class="modal-guardar">Guardar</button>
+  </div>
+</div>
+<script>
+function abrirModalIdiomaMoneda() {
+    document.getElementById('modal-idioma-moneda').style.display = 'flex';
+}
+function cerrarModalIdiomaMoneda() {
+    document.getElementById('modal-idioma-moneda').style.display = 'none';
+}
+function guardarIdiomaMoneda() {
+    // Aquí puedes agregar la lógica para guardar los cambios
+    cerrarModalIdiomaMoneda();
+}
+</script>
+
+  <!-- CONTENEDOR DE PRODUCTOS (vacío, JS lo llena) -->
+  <main id="lista-productos" class="productos"></main>
+
+  <!-- TESTIMONIOS -->
+  <section id="testimonios-jexp">
+    <h2>Testimonios</h2>
+    <div class="testimonios-lista">
+      <div class="testimonio"><p>“¡El mejor viaje de mi vida! Todo fue perfecto y la atención excelente.”</p><span>- Laura G.</span></div>
+      <div class="testimonio"><p>“Reservar fue súper fácil y el tour superó mis expectativas.”</p><span>- Andrés P.</span></div>
+      <div class="testimonio"><p>“Repetiría sin dudarlo. Muy recomendado.”</p><span>- Camila R.</span></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq-jexp">
+    <h2>Preguntas frecuentes</h2>
+    <details><summary>¿Cómo reservo una actividad?</summary><p>Haz clic en el botón de WhatsApp en la actividad que te interesa y te atenderemos personalmente.</p></details>
+    <details><summary>¿Es seguro reservar por aquí?</summary><p>Sí, contamos con atención personalizada y métodos de pago seguros.</p></details>
+    <details><summary>¿Puedo cancelar o cambiar mi reserva?</summary><p>¡Por supuesto! Contáctanos y te ayudaremos con el proceso.</p></details>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div id="footer-jexp">
+      <p>© 2025 Jexpedition. Todos los derechos reservados.</p>
+      <div class="redes">
+        <a href="https://wa.me/573237204014" target="_blank" aria-label="WhatsApp">WhatsApp</a>
+        <a href="#" target="_blank" aria-label="Instagram">Instagram</a>
+        <a href="#" target="_blank" aria-label="Facebook">Facebook</a>
+      </div>
+      <p>Contacto: <a href="mailto:info@jexpedition.com">info@jexpedition.com</a></p>
+    </div>
+  </footer>
+
+  <!-- MENSAJE DE CONFIANZA FIJO -->
+  <div id="confianza-msg">✔️ Compra segura y atención personalizada</div>
+</body>
+</html>

@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jexpedition - Vive tus aventuras</title>
+  <link rel="icon" type="image/png" href="logos/logoinicio.png">
   <link rel="stylesheet" href="styles.css" />
   <script defer src="script.js"></script>
 </head>
@@ -17,29 +18,30 @@
     <!-- Logo para pantallas pequeñas -->
     <img src="logos/logosimple.png" alt="Jexpedition logo" class="hero-logo hero-logo-sm" />
 
-    <button id="idioma-moneda-btn" onclick="abrirModalIdiomaMoneda()" aria-label="Cambiar idioma y moneda" class="idioma-moneda-btn">
-      🌐
-    </button>
-  </div>
-  </div>
 
 
-<div class="hero-categorias">
-  <button onclick="filtrarPorCategoria('viaje')" class="cat-btn">
-    <img src="iconos/viaje.png" alt="" class="cat-icon" />
-    Viajes
+
+
+    
+<div class="botones-header">
+  <button onclick="abrirModalIdiomaMoneda()" aria-label="Cambiar idioma y moneda" class="idioma-moneda-btn">
+    <img src="iconos/idioma.png" alt="Idioma y moneda" class="icono-boton" />
   </button>
-  <button onclick="filtrarPorCategoria('pasadía')" class="cat-btn">
-    <img src="iconos/pasadia.png" alt="" class="cat-icon" />
-    Pasadías
-  </button>
-  <button onclick="filtrarPorCategoria('tour')" class="cat-btn">
-    <img src="iconos/tours.png" alt="" class="cat-icon" />
-    Tours
+
+  <button onclick="abrirMenu()" aria-label="Abrir menú" class="idioma-moneda-btn">
+    <img src="iconos/menu.png" alt="Menú" class="icono-boton" />
   </button>
 </div>
 
-<form class="hero-buscador" onsubmit="buscarActividades(); return false;">
+
+  </div>
+  </div>
+
+
+
+
+<div id="barra-fija">
+  <form id="buscador-sticky" class="hero-buscador" onsubmit="buscarActividades(); return false;">
     <div class="buscador-contenedor">
       <input type="text" id="search" placeholder="¿A dónde quieres ir?" autocomplete="off" />
       <button id="buscar-btn" type="submit" aria-label="Buscar">
@@ -47,46 +49,119 @@
       </button>
     </div>
   </form>
+
+  <div class="hero-categorias">
+    <button onclick="filtrarPorCategoria('viaje')" class="cat-btn">
+      <img src="iconos/viaje.png" alt="" class="cat-icon" />
+      Viajes
+    </button>
+    <button onclick="filtrarPorCategoria('pasadía')" class="cat-btn">
+      <img src="iconos/pasadia.png" alt="" class="cat-icon" />
+      Pasadías
+    </button>
+    <button onclick="filtrarPorCategoria('tour')" class="cat-btn">
+      <img src="iconos/tours.png" alt="" class="cat-icon" />
+      Tours
+    </button>
+  </div>
+</div>
+
   
 </section>
 
+<!-- CONTENEDOR DE PRODUCTOS (vacío, JS lo llena) -->
+<main id="lista-productos" class="productos"></main>
+
+<div id="no-result" class="no-result" style="display: none;">
+  <p>😕 No se encontraron actividades.<br>¡Contáctanos y te ayudamos a encontrar tu experiencia ideal!</p>
+  <a href="https://wa.me/573237204014?text=Hola, quiero información" class="cta-wsp" target="_blank">
+    Hablar por WhatsApp
+  </a>
+</div>
 
 
 
-
-  <!-- CONTENEDOR DE PRODUCTOS (vacío, JS lo llena) -->
-  <main id="lista-productos" class="productos"></main>
-
-  <!-- TESTIMONIOS -->
-  <section id="testimonios-jexp">
-    <h2>Testimonios</h2>
-    <div class="testimonios-lista">
-      <div class="testimonio"><p>“¡El mejor viaje de mi vida! Todo fue perfecto y la atención excelente.”</p><span>- Laura G.</span></div>
-      <div class="testimonio"><p>“Reservar fue súper fácil y el tour superó mis expectativas.”</p><span>- Andrés P.</span></div>
-      <div class="testimonio"><p>“Repetiría sin dudarlo. Muy recomendado.”</p><span>- Camila R.</span></div>
+<!-- TESTIMONIOS -->
+<section id="testimonios-jexp">
+  <h2>Lo que dicen nuestros viajeros</h2>
+  <p class="subtexto">Miles de personas han vivido experiencias inolvidables con nosotros. Esto es lo que opinan:</p>
+  <div class="testimonios-lista">
+    <div class="testimonio">
+      <p>“¡El mejor viaje de mi vida! San Andrés fue un paraíso y todo estuvo perfectamente organizado.”</p>
+      <span>- Laura G. (Bogotá)</span>
     </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq-jexp">
-    <h2>Preguntas frecuentes</h2>
-    <details><summary>¿Cómo reservo una actividad?</summary><p>Haz clic en el botón de WhatsApp en la actividad que te interesa y te atenderemos personalmente.</p></details>
-    <details><summary>¿Es seguro reservar por aquí?</summary><p>Sí, contamos con atención personalizada y métodos de pago seguros.</p></details>
-    <details><summary>¿Puedo cancelar o cambiar mi reserva?</summary><p>¡Por supuesto! Contáctanos y te ayudaremos con el proceso.</p></details>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div id="footer-jexp">
-      <p>© 2025 Jexpedition. Todos los derechos reservados.</p>
-      <div class="redes">
-        <a href="https://wa.me/573237204014" target="_blank" aria-label="WhatsApp">WhatsApp</a>
-        <a href="#" target="_blank" aria-label="Instagram">Instagram</a>
-        <a href="#" target="_blank" aria-label="Facebook">Facebook</a>
-      </div>
-      <p>Contacto: <a href="mailto:info@jexpedition.com">info@jexpedition.com</a></p>
+    <div class="testimonio">
+      <p>“Reservar fue súper fácil. Me atendieron por WhatsApp y el tour en Cartagena superó todas mis expectativas.”</p>
+      <span>- Andrés P. (Medellín)</span>
     </div>
-  </footer>
+    <div class="testimonio">
+      <p>“El guía fue increíble, aprendimos muchísimo sobre Santa Marta. Repetiría sin dudarlo. Muy recomendado.”</p>
+      <span>- Camila R. (Cali)</span>
+    </div>
+    <div class="testimonio">
+      <p>“Todo fue puntual, seguro y organizado. Ideal para ir en pareja o en familia. ¡Gracias Jexpedition!”</p>
+      <span>- Felipe M. (Barranquilla)</span>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq-jexp">
+  <h2>Preguntas frecuentes</h2>
+  <details>
+    <summary>¿Cómo reservo una actividad?</summary>
+    <p>Selecciona la actividad que te interesa y haz clic en el botón de WhatsApp. Un asesor te atenderá personalmente para completar tu reserva.</p>
+  </details>
+  <details>
+    <summary>¿Es seguro reservar por aquí?</summary>
+    <p>Sí. Usamos métodos de pago seguros y nuestro equipo de atención está disponible en todo momento para resolver tus dudas. Somos una empresa verificada y con experiencia.</p>
+  </details>
+  <details>
+    <summary>¿Puedo cancelar o cambiar mi reserva?</summary>
+    <p>¡Claro! Tenemos políticas flexibles. Si necesitas reprogramar o cancelar tu actividad, solo contáctanos con anticipación y lo solucionamos contigo.</p>
+  </details>
+  <details>
+    <summary>¿Ofrecen descuentos para grupos?</summary>
+    <p>Sí. Si viajas en grupo o con tu familia, contáctanos para brindarte una cotización especial y beneficios adicionales.</p>
+  </details>
+  <details>
+    <summary>¿Incluyen transporte o alimentación?</summary>
+    <p>Depende de la actividad. En la descripción de cada tour verás si incluye transporte, alimentación u otros servicios. Si tienes dudas, escríbenos por WhatsApp.</p>
+  </details>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div id="footer-jexp">
+
+    <div class="redes">
+      <a href="https://wa.me/573237204014" target="_blank" aria-label="WhatsApp">WhatsApp</a>
+      <a href="https://instagram.com/" target="_blank" aria-label="Instagram">Instagram</a>
+      <a href="https://facebook.com/" target="_blank" aria-label="Facebook">Facebook</a>
+    </div>
+    <p>© 2025 Jexpedition. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+
+
+
+<!-- MODAL PARA CAMBIAR IDIOMA Y MONEDA -->
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const barra = document.getElementById('barra-fija');
+    const offsetTop = barra.offsetTop;
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > offsetTop) {
+        barra.classList.add('fijo', 'compacto');
+      } else {
+        barra.classList.remove('fijo', 'compacto');
+      }
+    });
+  });
+</script>
+
 
 </body>
 </html>

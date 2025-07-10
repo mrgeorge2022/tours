@@ -133,10 +133,14 @@ function normalizarTexto(texto) {
 
 function mostrarProductos(lista) {
   const contenedor = document.getElementById("lista-productos");
+  const noResult = document.getElementById("no-result");
   contenedor.innerHTML = "";
+
   if (lista.length === 0) {
-    contenedor.innerHTML = `<div class='no-result'>\n  <p>😕 No se encontraron actividades.<br>¡Contáctanos y te ayudamos a encontrar tu experiencia ideal!</p>\n  <a href='https://wa.me/573237204014?text=Hola, quiero información sobre tours y viajes' class='cta-wsp' target='_blank'>Hablar por WhatsApp</a>\n</div>`;
+    if (noResult) noResult.style.display = "block";
     return;
+  } else {
+    if (noResult) noResult.style.display = "none";
   }
   lista.forEach((p, idx) => {
     const card = document.createElement("div");

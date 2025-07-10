@@ -11,63 +11,48 @@
 <!-- HERO + BUSCADOR UNIFICADO (versión sencilla, sin div envolvente) -->
 <section id="hero-jexp">
   <div class="hero-simple-header">
-    <span class="hero-logo">Jexpedition</span>
-      <div class="hero-categorias">
-    <button onclick="filtrarPorCategoria('viaje')" class="cat-btn">Viajes</button>
-    <button onclick="filtrarPorCategoria('pasadía')" class="cat-btn">Pasadías</button>
-    <button onclick="filtrarPorCategoria('tour')" class="cat-btn">Tour</button>
-  </div>
+    <!-- Logo para pantallas grandes -->
+    <img src="logos/logo.png" alt="Jexpedition logo" class="hero-logo hero-logo-lg" />
+
+    <!-- Logo para pantallas pequeñas -->
+    <img src="logos/logosimple.png" alt="Jexpedition logo" class="hero-logo hero-logo-sm" />
+
     <button id="idioma-moneda-btn" onclick="abrirModalIdiomaMoneda()" aria-label="Cambiar idioma y moneda" class="idioma-moneda-btn">
       🌐
     </button>
   </div>
+  </div>
+
+
+<div class="hero-categorias">
+  <button onclick="filtrarPorCategoria('viaje')" class="cat-btn">
+    <img src="iconos/viaje.png" alt="" class="cat-icon" />
+    Viajes
+  </button>
+  <button onclick="filtrarPorCategoria('pasadía')" class="cat-btn">
+    <img src="iconos/pasadia.png" alt="" class="cat-icon" />
+    Pasadías
+  </button>
+  <button onclick="filtrarPorCategoria('tour')" class="cat-btn">
+    <img src="iconos/tours.png" alt="" class="cat-icon" />
+    Tours
+  </button>
+</div>
 
 <form class="hero-buscador" onsubmit="buscarActividades(); return false;">
-  <div class="buscador-contenedor">
-    <input type="text" id="search" placeholder="¿A dónde quieres ir?" autocomplete="off" />
-    <button id="buscar-btn" type="submit" aria-label="Buscar">
-      🔍
-    </button>
-  </div>
-</form>
-
+    <div class="buscador-contenedor">
+      <input type="text" id="search" placeholder="¿A dónde quieres ir?" autocomplete="off" />
+      <button id="buscar-btn" type="submit" aria-label="Buscar">
+        <img src="iconos/buscar.png" alt="buscar">
+      </button>
+    </div>
+  </form>
+  
 </section>
 
-<!-- MODAL IDIOMA/MONEDA -->
-<div id="modal-idioma-moneda" class="modal-idioma-moneda">
-  <div class="modal-idioma-moneda-content">
-    <button onclick="cerrarModalIdiomaMoneda()" aria-label="Cerrar" class="modal-cerrar">&times;</button>
-    <h3 id="modal-titulo">Cambiar idioma y moneda</h3>
-    <div class="modal-row">
-      <label for="idioma-select-modal">Idioma:</label>
-      <select id="idioma-select-modal" aria-label="Seleccionar idioma">
-        <option value="es">Español</option>
-        <option value="en">English</option>
-      </select>
-    </div>
-    <div class="modal-row">
-      <label for="moneda-select-modal">Moneda:</label>
-      <select id="moneda-select-modal" aria-label="Seleccionar moneda">
-        <option value="COP">Peso colombiano (COP)</option>
-        <option value="USD">Dólar estadounidense (USD)</option>
-        <option value="EUR">Euro (EUR)</option>
-      </select>
-    </div>
-    <button onclick="guardarIdiomaMoneda()" class="modal-guardar">Guardar</button>
-  </div>
-</div>
-<script>
-function abrirModalIdiomaMoneda() {
-    document.getElementById('modal-idioma-moneda').style.display = 'flex';
-}
-function cerrarModalIdiomaMoneda() {
-    document.getElementById('modal-idioma-moneda').style.display = 'none';
-}
-function guardarIdiomaMoneda() {
-    // Aquí puedes agregar la lógica para guardar los cambios
-    cerrarModalIdiomaMoneda();
-}
-</script>
+
+
+
 
   <!-- CONTENEDOR DE PRODUCTOS (vacío, JS lo llena) -->
   <main id="lista-productos" class="productos"></main>
@@ -103,7 +88,5 @@ function guardarIdiomaMoneda() {
     </div>
   </footer>
 
-  <!-- MENSAJE DE CONFIANZA FIJO -->
-  <div id="confianza-msg">✔️ Compra segura y atención personalizada</div>
 </body>
 </html>

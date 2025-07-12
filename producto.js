@@ -3,7 +3,7 @@ const productos = JSON.parse(localStorage.getItem('productosJexp')) || [];
 function normalizarTexto(texto) {
   return texto.toLowerCase()
     .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9\s]/gi, "");
+    .replace(/[^a-z0-9\\s]/gi, "");
 }
 
 function getParametro(nombre) {
@@ -25,65 +25,60 @@ window.addEventListener('DOMContentLoaded', () => {
   const imagenes = prod.imagenes && prod.imagenes.length ? prod.imagenes : [prod.imagen];
   window.imagenesDelProducto = imagenes;
 
-  let collageHTML = '';
-  if (imagenes.length > 1) {
-    collageHTML = `
-      <div class="collage-producto" style="display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: repeat(2, 1fr); gap: 10px; margin-bottom: 18px;">
-        <img src="${imagenes[0]}" style="grid-row: 1 / 3; width: 100%; height: 100%; object-fit: cover; border-radius: 12px; cursor: pointer;" onclick="verImagenCompleta('${prod.nombre.replace(/'/g, "\\'")}', 0)" />
-        ${imagenes[1] ? `<img src="${imagenes[1]}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; cursor: pointer;" onclick="verImagenCompleta('${prod.nombre.replace(/'/g, "\\'")}', 1)" />` : ''}
-        ${imagenes[2] ? `<img src="${imagenes[2]}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; cursor: pointer;" onclick="verImagenCompleta('${prod.nombre.replace(/'/g, "\\'")}', 2)" />` : ''}
+const collageHTML = `
+  <div class="contenedor-collage">
+    <div class="collage-producto">
+      <div class="img-grande">
+        <img src="${imagenes[0]}" onclick="verImagenCompleta('${prod.nombre}', 0)" />
       </div>
-      <button onclick="document.getElementById('galeria-expandida').style.display='flex'; this.style.display='none';" style="background:#f4f8fb;color:#1e90ff;border:none;border-radius:20px;padding:8px 18px;cursor:pointer;font-weight:bold;margin-bottom:24px;">Mostrar todas las imágenes</button>
-    `;
-  }
-
-  const galeriaHTML = `
-    <div id="galeria-expandida" style="display:none; overflow-x: auto; white-space: nowrap; gap: 12px; margin-bottom: 24px; padding-bottom: 8px;">
-      ${imagenes.map((img, i) => `
-        <img src="${img}" onclick="verImagenCompleta('${prod.nombre.replace(/'/g, "\\'")}', ${i})"
-             style="display:inline-block; width: 220px; height: 140px; object-fit: cover; border-radius: 12px; cursor: pointer; margin-right: 12px;" />
-      `).join('')}
+      <div class="img-pequenas">
+        ${imagenes[1] ? `<img src="${imagenes[1]}" onclick="verImagenCompleta('${prod.nombre}', 1)" />` : ''}
+        ${imagenes[2] ? `<img src="${imagenes[2]}" onclick="verImagenCompleta('${prod.nombre}', 2)" />` : ''}
+      </div>
     </div>
-  `;
+    <button class="mostrar-galeria-encima" onclick="mostrarGaleriaExpandida()">Mostrar más imágenes</button>
+  </div>
 
-  const contadoresHTML = `
-    <div style="margin-top:24px;margin-bottom:16px;">
-      <h3 style="margin-bottom:10px;">Selecciona tu grupo:</h3>
-      ${crearContador('adultos', 'Adultos')}
-      ${crearContador('ninos', 'Niños')}
-      ${crearContador('bebes', 'Bebés')}
-      ${crearContador('mascotas', 'Mascotas')}
-    </div>
-  `;
+  <div id="galeria-expandida" class="galeria-expandida">
+    ${imagenes.map((img, i) => `<img src="${img}" onclick="verImagenCompleta('${prod.nombre}', ${i})" />`).join('')}
+  </div>
+
+<div class="barra-flotante-wsp">
+<div class="precio-container">
+  <span class="label">Precio:</span>
+  <span class="valor">$${prod.precio}</span>
+</div>
+  <a id="btn-wsp" class="cta-wsp">Reservar</a>
+</div>
+
+`;
+
+
+
+
+
+  const contadoresHTML = crearContadoresHTML();
 
   document.getElementById('vista-producto').innerHTML = `
-    <div style="padding: 24px; max-width: 960px; margin: auto; font-family: 'Segoe UI', sans-serif;">
+    <div>
+    ${collageHTML}
       <h1>${prod.nombre}</h1>
       <p><strong>${prod.ciudad}</strong> - ${prod.tipo.toUpperCase()}</p>
-      ${collageHTML}
-      ${galeriaHTML}
-      <p><strong>Precio:</strong> ${prod.precio}</p>
-      <p>Una experiencia inolvidable en <strong>${prod.ciudad}</strong>. ¡Reserva ya!</p>
-      ${contadoresHTML}
+      <p>${prod.descripcion}</p>
+<div class="fila-contadores-calendario">
+  <div class="grupo-contadores">
+    ${contadoresHTML}
+  </div>
+  <div class="contenedor-calendario">
+    <label><strong>Selecciona fecha de reserva:</strong></label>
+    <div id="calendario-reserva"></div>
+  </div>
+</div>
 
-      <div id="form-nombres" style="margin-top: 24px;"></div>
+      <div id="form-nombres"></div>
 
-      <div style="margin-top:20px;margin-bottom:10px;">
-        <label><strong>Selecciona fecha de reserva:</strong></label><br/>
-        <div id="calendario-reserva" style="max-width:300px;"></div>
-      </div>
-
-      <a id="btn-wsp"
-         class="cta-wsp"
-         style="display:inline-block;margin-top:10px;padding:12px 24px;border-radius:20px;background:#25d366;color:#fff;text-decoration:none;">
-         Reservar por WhatsApp
-      </a>
-
-      <button onclick="compartirProducto()" 
-        style="margin-left:12px;background:#f4f8fb;color:#1e90ff;border:none;border-radius:20px;padding:10px 20px;cursor:pointer;font-weight:bold;">
-        Compartir
-      </button>
-      <span id="msg-copiado" style="margin-left:10px;font-size:0.9em;color:green;display:none;">¡Enlace copiado!</span>
+      <button onclick="compartirProducto()" class="btn-compartir">Compartir</button>
+      <span id="msg-copiado">¡Enlace copiado!</span>
     </div>
   `;
 
@@ -107,16 +102,68 @@ window.addEventListener('DOMContentLoaded', () => {
   actualizarLinkWhatsApp(prod);
 });
 
-function crearContador(id, label) {
+function mostrarGaleriaExpandida() {
+  const galeria = document.getElementById('galeria-expandida');
+  if (galeria) galeria.style.display = 'flex';
+  const boton = document.querySelector('.mostrar-galeria-encima');
+  if (boton) boton.style.display = 'none';
+}
+
+
+
+
+
+function crearCollageHTML(imagenes, nombre) {
+  if (imagenes.length < 2) return '';
   return `
-    <div style="display:flex;align-items:center;margin-bottom:10px;">
-      <span style="min-width:90px;">${label}:</span>
-      <button onclick="cambiarCantidad('${id}', -1)" style="width:32px;height:32px;border:none;background:#ddd;border-radius:50%;font-weight:bold;cursor:pointer;">−</button>
-      <span id="count-${id}" style="width:40px;text-align:center;font-weight:bold;">0</span>
-      <button onclick="cambiarCantidad('${id}', 1)" style="width:32px;height:32px;border:none;background:#1e90ff;color:white;border-radius:50%;font-weight:bold;cursor:pointer;">+</button>
+    <div class="collage-producto">
+      <img src="${imagenes[0]}" onclick="verImagenCompleta('${nombre}', 0)" />
+      ${imagenes[1] ? `<img src="${imagenes[1]}" onclick="verImagenCompleta('${nombre}', 1)" />` : ''}
+      ${imagenes[2] ? `<img src="${imagenes[2]}" onclick="verImagenCompleta('${nombre}', 2)" />` : ''}
+    </div>
+    <button onclick="document.getElementById('galeria-expandida').style.display='flex'; this.style.display='none';" class="mostrar-galeria">Mostrar todas las imágenes</button>
+  `;
+}
+
+function crearGaleriaHTML(imagenes, nombre) {
+  return `
+    <div id="galeria-expandida">
+      ${imagenes.map((img, i) => `<img src="${img}" onclick="verImagenCompleta('${nombre}', ${i})" />`).join('')}
     </div>
   `;
 }
+
+function crearContadoresHTML() {
+  return `
+    <div class="grupo-contadores">
+      <h3>Selecciona tu grupo:</h3>
+        ${crearContador('adultos', 'Adultos', 'Mayores de 13 años')}
+        ${crearContador('ninos', 'Niños', 'De 2 a 12 años')}
+        ${crearContador('bebes', 'Bebés', 'Menores de 2 años')}
+      ${crearContador('mascotas', 'Mascotas', '')}
+    </div>
+  `;
+}
+
+
+function crearContador(id, label, subtitulo = '') {
+  return `
+    <div class="contador-item">
+      <div class="info-contador">
+        <span class="label">${label}</span>
+        ${subtitulo ? `<small class="subtitulo">${subtitulo}</small>` : ''}
+      </div>
+      <div class="acciones-contador">
+        <button onclick="cambiarCantidad('${id}', -1)" class="decrement">−</button>
+        <span id="count-${id}" class="count">0</span>
+        <button onclick="cambiarCantidad('${id}', 1)" class="increment">+</button>
+      </div>
+    </div>
+  `;
+}
+
+
+
 
 function cambiarCantidad(id, cambio) {
   const span = document.getElementById(`count-${id}`);
@@ -134,20 +181,17 @@ function actualizarCamposDeNombres() {
     { id: 'bebes', label: 'Bebés' },
     { id: 'mascotas', label: 'Mascotas' }
   ];
-
   const contenedor = document.getElementById('form-nombres');
   contenedor.innerHTML = '';
-
   tipos.forEach(({ id, label }) => {
     const cantidad = parseInt(document.getElementById(`count-${id}`).textContent);
     for (let i = 1; i <= cantidad; i++) {
-      const div = document.createElement('div');
-      div.style = 'margin-bottom:10px;';
-      div.innerHTML = `
-        <label for="${id}-${i}" style="display:block;font-weight:500;">${label} ${i}:</label>
-        <input type="text" id="${id}-${i}" placeholder="Nombre de ${label.toLowerCase()} ${i}" style="width:100%;padding:8px;border-radius:6px;border:1px solid #ccc;" />
+      contenedor.innerHTML += `
+        <div>
+          <label for="${id}-${i}">${label} ${i}:</label>
+          <input type="text" id="${id}-${i}" placeholder="Nombre de ${label.toLowerCase()} ${i}" />
+        </div>
       `;
-      contenedor.appendChild(div);
     }
   });
 }
@@ -160,7 +204,6 @@ function actualizarLinkWhatsApp(producto) {
   const ninos = document.getElementById('count-ninos')?.textContent || '0';
   const bebes = document.getElementById('count-bebes')?.textContent || '0';
   const mascotas = document.getElementById('count-mascotas')?.textContent || '0';
-
   const fecha = document.getElementById('fecha-reserva')?.value || '';
 
   let mensaje = `Hola, quiero reservar: ${nombre} en ${ciudad}`;
@@ -168,8 +211,7 @@ function actualizarLinkWhatsApp(producto) {
   mensaje += `\nAdultos: ${adultos}, Niños: ${ninos}, Bebés: ${bebes}, Mascotas: ${mascotas}`;
 
   const url = `https://wa.me/573237204014?text=${encodeURIComponent(mensaje)}`;
-  const btn = document.getElementById('btn-wsp');
-  if (btn) btn.href = url;
+  document.getElementById('btn-wsp').href = url;
 }
 
 function compartirProducto() {
@@ -195,24 +237,14 @@ window.verImagenCompleta = function(nombre, idx) {
 
   const lb = document.createElement('div');
   lb.id = 'modal-lightbox';
-  lb.style = `
-    position:fixed;
-    top:0; left:0;
-    width:100vw; height:100vh;
-    background:rgba(0,0,0,0.95);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:100000;
-    flex-direction:column;
-  `;
+  lb.className = 'modal-lightbox';
 
   function render() {
     lb.innerHTML = `
-      <button id="lb-prev" style="position:absolute;left:24px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:2.5em;cursor:pointer;z-index:2;">←</button>
-      <img src="${imagenes[current]}" alt="imagen" style="max-width:96vw;max-height:88vh;border-radius:12px;box-shadow:0 4px 32px #000;" />
-      <button id="lb-next" style="position:absolute;right:24px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:2.5em;cursor:pointer;z-index:2;">→</button>
-      <button id="lb-close" style="position:absolute;top:18px;right:24px;background:none;border:none;color:#fff;font-size:2.5em;cursor:pointer;z-index:2;">×</button>
+      <button id="lb-prev">←</button>
+      <img src="${imagenes[current]}" alt="imagen" />
+      <button id="lb-next">→</button>
+      <button id="lb-close">×</button>
     `;
     document.getElementById('lb-prev').onclick = (e) => { e.stopPropagation(); current = (current - 1 + imagenes.length) % imagenes.length; render(); };
     document.getElementById('lb-next').onclick = (e) => { e.stopPropagation(); current = (current + 1) % imagenes.length; render(); };

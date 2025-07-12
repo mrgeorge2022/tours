@@ -8,8 +8,10 @@ const productos = [
       "img/sanandres.jpg",
       "img/sanandres2.jpg",
       "img/sanandres3.jpg",
+      "img/sanandres3.jpg",
     ],
-    precio: "1.200.000"
+    precio: "1.200.000",
+    descripcion: "Disfruta de 4 días inolvidables en las playas paradisíacas de San Andrés. Todo incluido: vuelos, hotel, alimentación y tours."
   },
   {
     ciudad: "Cartagena",
@@ -21,7 +23,8 @@ const productos = [
       "img/baru2.jpg",
       "img/baru3.jpg",
     ],
-    precio: "120.000"
+    precio: "120.000",
+    descripcion: "Escápate por un día a las aguas cristalinas de Isla Barú. Transporte, almuerzo y actividades acuáticas incluidas."
   },
   {
     ciudad: "Santa Marta",
@@ -32,9 +35,9 @@ const productos = [
       "img/santamarta2.jpg",
       "img/santamarta3.jpg"
     ],
-    precio: "800.000"
+    precio: "800.000",
+    descripcion: "Aventura de varios días en la Sierra Nevada hasta Ciudad Perdida, una experiencia mágica llena de historia y naturaleza."
   },
-  // Productos adicionales con las mismas rutas de imagen
   {
     ciudad: "Medellín",
     nombre: "Explorando Medellín en 2 días",
@@ -45,7 +48,8 @@ const productos = [
       "img/sanandres2.jpg",
       "img/sanandres3.jpg"
     ],
-    precio: "950.000"
+    precio: "950.000",
+    descripcion: "Recorre Medellín como nunca antes: Graffitour, metrocable, parques, museos y lo mejor de la gastronomía paisa."
   },
   {
     ciudad: "Bogotá",
@@ -57,7 +61,8 @@ const productos = [
       "img/baru2.jpg",
       "img/baru3.jpg"
     ],
-    precio: "150.000"
+    precio: "150.000",
+    descripcion: "Explora el centro histórico de Bogotá con guías locales. Arte, historia, gastronomía y mucha cultura en un solo día."
   },
   {
     ciudad: "Cartagena",
@@ -68,7 +73,8 @@ const productos = [
       "img/santamarta2.jpg",
       "img/santamarta3.jpg"
     ],
-    precio: "450.000"
+    precio: "450.000",
+    descripcion: "Déjate llevar por la magia de las calles coloniales de Cartagena. Tour guiado con transporte y degustaciones incluidas."
   },
   {
     ciudad: "Santa Marta",
@@ -80,7 +86,8 @@ const productos = [
       "img/sanandres2.jpg",
       "img/sanandres3.jpg"
     ],
-    precio: "600.000"
+    precio: "600.000",
+    descripcion: "Descubre las mejores playas del Parque Tayrona, camina por senderos naturales y vive la selva caribeña."
   },
   {
     ciudad: "San Andrés",
@@ -91,7 +98,8 @@ const productos = [
       "img/santamarta2.jpg",
       "img/santamarta3.jpg"
     ],
-    precio: "300.000"
+    precio: "300.000",
+    descripcion: "Sumérgete en los arrecifes de San Andrés con nuestro tour de snorkeling. Equipo, guía y traslados incluidos."
   },
   {
     ciudad: "Medellín",
@@ -103,7 +111,8 @@ const productos = [
       "img/baru2.jpg",
       "img/baru3.jpg"
     ],
-    precio: "200.000"
+    precio: "200.000",
+    descripcion: "Conoce la historia de transformación de la Comuna 13 con guías locales, música urbana, arte callejero y comida típica."
   },
   {
     ciudad: "Cali",
@@ -115,7 +124,8 @@ const productos = [
       "img/sanandres2.jpg",
       "img/sanandres3.jpg"
     ],
-    precio: "350.000"
+    precio: "350.000",
+    descripcion: "Vive la energía de Cali con clases de salsa, visitas a sitios emblemáticos y una noche de rumba inolvidable."
   }
 ];
 

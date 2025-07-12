@@ -1,259 +1,580 @@
-    /* === Estilos generales === */
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
+/* === Estilos globales === */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
 
-    h1, h3 {
-      color: #1e90ff;
-    }
+h1, h3 {
+  color: #000000;
+}
+
+
+.barra-superior {
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.btn-volver {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.icono-volver {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
 
 
 
-    
-    /* === Contenedor principal === */
-    .vista-producto {
-      padding: 24px;
-      max-width: 960px;
-      margin: auto;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-    }
+/* === Vista del producto === */
+.vista-producto {
+  padding: 24px;
+  max-width: 1200px;
+  margin: auto;
+  margin-bottom: 100px;
+  border-radius: 16px;
+}
 
-    /* === Collage de imágenes === */
-    .collage-producto {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      grid-template-rows: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 18px;
-    }
 
-    .collage-producto img,
-    #galeria-expandida img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
 
-    .collage-producto img:hover,
-    #galeria-expandida img:hover {
-      transform: scale(1.02);
-    }
+/* === Título principal === */
+.vista-producto h1 {
+  font-size: 2rem;
+  margin: 0 8px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  color: #000000;
+}
 
-    button.mostrar-galeria {
-      background: #f4f8fb;
-      color: #1e90ff;
-      border: none;
-      border-radius: 20px;
-      padding: 8px 18px;
-      cursor: pointer;
-      font-weight: bold;
-      margin-bottom: 24px;
-    }
+/* === Subtítulo o tipo === */
+.vista-producto p strong {
+  font-weight: 600;
+  color: #333;
+}
 
-    /* === Galería expandida === */
-    #galeria-expandida {
-      display: none;
-      overflow-x: auto;
-      white-space: nowrap;
-      gap: 12px;
-      margin-bottom: 24px;
-      padding-bottom: 8px;
-    }
+.vista-producto p {
+  margin: 0px 8px;
+  margin-top: 1px;
+  margin-bottom: 5px;
+  line-height: 1.5;
+  color: #555;
+}
 
-    #galeria-expandida img {
-      display: inline-block;
-      width: 220px;
-      height: 140px;
-      margin-right: 12px;
-    }
+/* === Precio destacado === */
+.vista-producto p strong:contains('Precio') {
+  display: block;
+  font-size: 1.2rem;
+  color: #1e90ff;
+}
 
-    /* === Contadores === */
-    .contador-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
+/* === Sección de contadores y calendario === */
+.vista-producto h3 {
+  margin-top: 0px;
+  margin-bottom: 12px;
+  margin-left: 5px;
 
-    .contador-item span.label {
-      min-width: 90px;
-    }
+  font-size: 1.2rem;
+  color: #000000;
+}
 
-    .contador-item button {
-      width: 32px;
-      height: 32px;
-      border: none;
-      border-radius: 50%;
-      font-weight: bold;
-      cursor: pointer;
-    }
+/* === Agrupación de acciones (WhatsApp y compartir) === */
+.botones-acciones {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
 
-    .contador-item button.decrement {
-      background: #ddd;
-    }
 
-    .contador-item button.increment {
-      background: #1e90ff;
-      color: white;
-    }
+/* === Contenedor general del collage === */
+.contenedor-collage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  margin-bottom: 24px;
+  border-radius: 16px;
+  overflow: hidden;
+}
 
-    .contador-item span.count {
-      width: 40px;
-      text-align: center;
-      font-weight: bold;
-    }
+/* === Collage en forma de "L": 1 grande + 2 pequeñas === */
+.collage-producto {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 2fr 1fr;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+}
 
-    /* === Inputs de nombres === */
-    #form-nombres div {
-      margin-bottom: 10px;
-    }
+/* Imagen grande a la izquierda */
+.collage-producto .img-grande {
+  grid-row: 1 / 3;
+  grid-column: 1 / 2;
+  overflow: hidden;
+}
 
-    #form-nombres input {
-      width: 100%;
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
+/* Contenedor vertical de imágenes pequeñas */
+.collage-producto .img-pequenas {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
 
-    #form-nombres input:focus {
-      border-color: #1e90ff;
-      outline: none;
-      box-shadow: 0 0 4px rgba(30, 144, 255, 0.4);
-    }
+/* Todas las imágenes del collage */
+.collage-producto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Recorta sin distorsión */
+  cursor: pointer;
+  transition: transform 0.25s;
+}
 
-    /* === Calendario === */
-    #calendario-reserva {
-      max-width: 300px;
-      margin-top: 8px;
-    }
 
-    /* === Botones === */
-    .cta-wsp,
-    .btn-compartir {
-      display: inline-block;
-      padding: 12px 24px;
-      border-radius: 20px;
-      text-decoration: none;
-      font-weight: bold;
-      margin-top: 10px;
-    }
+.galeria-expandida {
+  display: none;
+  margin-top: 16px;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 10px;
+  scroll-behavior: smooth;
+}
 
-    .cta-wsp {
-      background: #25d366;
-      color: white;
-    }
+.galeria-expandida img {
+  display: inline-block;
+  width: 200px;
+  height: 130px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
 
-    .btn-compartir {
-      background: #f4f8fb;
-      color: #1e90ff;
-      border: none;
-      margin-left: 12px;
-      cursor: pointer;
-    }
+.mostrar-galeria-encima {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: lighter;
+  font-size: 20px;
+  color: #ff8800;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
 
-    #msg-copiado {
-      margin-left: 10px;
-      font-size: 0.9em;
-      color: green;
-      display: none;
-    }
+.mostrar-galeria-encima:hover {
+  background-color: #e9f3ff;
+}
 
-    /* === Modal de imagen === */
-    #modal-lightbox {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.95);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100000;
-      flex-direction: column;
-    }
+@media screen and (max-width: 768px) {
+  .mostrar-galeria-encima {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
 
-    #modal-lightbox img {
-      max-width: 96vw;
-      max-height: 88vh;
-      border-radius: 12px;
-      box-shadow: 0 4px 32px #000;
-    }
 
-    #modal-lightbox button {
-      position: absolute;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 2.5em;
-      cursor: pointer;
-      z-index: 2;
-    }
 
-    #lb-prev {
-      left: 24px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
 
-    #lb-next {
-      right: 24px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
+/* === Contadores === */
+/* === Contadores === */
+.grupo-contadores {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-    #lb-close {
-      top: 18px;
-      right: 24px;
-    }
+.contador-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  max-width: 100%;
+}
 
-    /* === Imágenes en escala de grises opcional === */
-    img.gris {
-      filter: grayscale(100%);
-      transition: filter 0.3s ease;
-    }
+.info-contador {
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+}
 
-    img.gris:hover {
-      filter: grayscale(0%);
-    }
+.label {
+  font-weight: bold;
+  font-size: 1rem;
+}
 
-    /* === Responsive === */
-    @media (max-width: 768px) {
-      .vista-producto {
-        padding: 16px;
-        border-radius: 12px;
-      }
+.subtitulo {
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 2px;
+}
 
-      .collage-producto {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-      }
 
-      #galeria-expandida img {
-        width: 160px;
-        height: 100px;
-      }
+.acciones-contador {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-      .cta-wsp,
-      .btn-compartir {
-        width: 100%;
-        margin-left: 0;
-      }
+.count {
+  width: 28px;
+  text-align: center;
+  font-size: 1.1rem;
+}
 
-      .contador-item {
-        flex-direction: column;
-        align-items: flex-start;
-      }
 
-      .contador-item span.label {
-        margin-bottom: 6px;
-      }
-    }
+
+
+
+
+
+
+/* Efecto al presionar */
+.contador-item button:active {
+  transform: scale(0.92);
+}
+
+
+
+/* Botón de restar */
+.contador-item button.decrement,
+.contador-item button.increment {
+  display: flex;                /* Asegura flexbox en los botones */
+  justify-content: center;     /* Centrado horizontal */
+  align-items: center;         /* Centrado vertical */
+  width: 40px;
+  height: 40.5px;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+}
+
+
+button.increment,
+button.decrement {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Colores específicos */
+.contador-item button.decrement {
+  background-color: none;
+  color: #999999;
+    font-weight: lighter;
+  font-size: 30px;
+  border: solid 1px #9c9c9c;
+}
+
+.contador-item button.increment {
+  background-color: none;
+  font-size: 30px;
+  font-weight: lighter;
+  color: #999999;
+  border: solid 1px #9c9c9c;
+}
+
+/* Número */
+.contador-item .count {
+  width: 28px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #000;
+}
+
+@media (max-width: 500px) {
+  .contador-item button.decrement,
+  .contador-item button.increment {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+}
+
+
+
+
+
+
+
+/* === Contenedor principal: fila con contadores y calendario === */
+.fila-contadores-calendario {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: center;
+  padding: 24px;
+}
+
+
+/* === Calendario === */
+.contenedor-calendario {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;    /* Centra verticalmente */
+  align-items: center;        /* Centra horizontalmente */
+  flex: 1;
+  max-width: 320px;
+  padding: 16px;
+  border-radius: 10px;
+
+
+}
+
+.contenedor-calendario label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* Asegura que los contadores no se estiren */
+.grupo-contadores {
+  flex: 2;
+}
+
+/* === Responsive para móviles === */
+@media (max-width: 768px) {
+  .fila-contadores-calendario {
+    flex-direction: column;
+    padding: 16px;
+    justify-content: center;
+    align-content: center;
+  }
+
+
+  .grupo-contadores,
+  .contenedor-calendario {
+    width: 100%;
+    max-width: 100%;
+  }
+  }
+
+
+/* === Campos de nombres dinámicos === */
+#form-nombres div {
+  margin-bottom: 10px;
+}
+
+#form-nombres input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#form-nombres input:focus {
+  border-color: #1e90ff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(30, 144, 255, 0.4);
+}
+
+/* === Calendario === */
+#calendario-reserva {
+  max-width: 300px;
+  margin-top: 8px;
+}
+
+/* === Botones de acción === */
+.btn-compartir {
+  background: #f4f8fb;
+  color: #1e90ff;
+  border: none;
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+/* === Copiado === */
+#msg-copiado {
+  margin-left: 10px;
+  font-size: 0.9em;
+  color: green;
+  display: none;
+}
+
+/* === Modal de imagen === */
+.modal-lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000;
+  flex-direction: column;
+}
+
+.modal-lightbox img {
+  max-width: 96vw;
+  max-height: 88vh;
+  border-radius: 12px;
+  box-shadow: 0 4px 32px #000;
+}
+
+.modal-lightbox button {
+  position: absolute;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2.5em;
+  cursor: pointer;
+  z-index: 2;
+}
+
+#lb-prev {
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#lb-next {
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#lb-close {
+  top: 18px;
+  right: 24px;
+}
+
+/* === Escala de grises (opcional) === */
+img.gris {
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+img.gris:hover {
+  filter: grayscale(0%);
+}
+
+
+
+
+
+
+/* === Barra flotante para WhatsApp === */
+
+.precio-container {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.precio-container .label {
+  margin-bottom: -2px;
+  font-size: 20px;
+  color: #555;
+}
+
+.precio-container .valor {
+  font-size: 1.2rem;
+  color: #000000;
+  text-decoration: underline;
+}
+
+
+.barra-flotante-wsp {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border-top: 1px solid #ddd;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 9999;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.barra-flotante-wsp p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.barra-flotante-wsp .cta-wsp {
+  text-align: center;
+  background: #25d366;
+  width: 30%;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 30px;
+  white-space: nowrap;
+}
+
+
+
+
+
+
+
+
+
+
+/* === Responsive para móviles y tablets === */
+@media (max-width: 768px) {
+  .vista-producto {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .contenedor-collage {
+    aspect-ratio: 3 / 2;
+    margin-bottom: 16px;
+  }
+
+  .collage-producto {
+    gap: 6px;
+  }
+
+  #galeria-expandida img {
+    width: 160px;
+    height: 100px;
+  }
+}
+
+
+

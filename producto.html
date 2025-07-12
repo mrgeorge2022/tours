@@ -2,12 +2,20 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Producto - Jexpedition</title>
   <link rel="icon" type="image/png" href="logos/logoinicio.png">
 
+<div class="barra-superior">
+  <button class="btn-volver" onclick="history.back()">
+    <img src="iconos/volver.png" alt="Volver" class="icono-volver">
+  </button>
+  
+</div>
+
+
   <!-- Estilos -->
-  <link rel="stylesheet" href="productos.css" />
+  <link rel="stylesheet" href="productos.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <!-- Scripts -->
@@ -19,7 +27,7 @@
 <body>
 
   <!-- Vista dinámica del producto -->
-  <div id="vista-producto"></div>
+  <div id="vista-producto" class="vista-producto"></div>
 
 </body>
 </html>

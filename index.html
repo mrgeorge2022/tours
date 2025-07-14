@@ -118,8 +118,7 @@
     </button>
   </div>
 </div>
-  
-</section>
+
 
 <!-- CONTENEDOR DE PRODUCTOS (vacío, JS lo llena) -->
 <main id="lista-productos" class="productos"></main>
@@ -195,6 +194,20 @@
   </div>
 </footer>
 
+<!-- Barra fija que se muestra al hacer scroll -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener("scroll", () => {
+      const barra = document.getElementById("barra-fija");
+
+      if (window.scrollY > 80) {
+        barra.classList.add("fijo", "compacto");
+      } else {
+        barra.classList.remove("fijo", "compacto");
+      }
+    });
+  });
+</script>
 
 
 

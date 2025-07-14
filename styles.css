@@ -50,15 +50,30 @@ header {
   word-break: break-word;
 }
 
-
 #barra-fija {
-  width: 100%;
-  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: white;
+  transition: all 0.3s ease;
+}
+#barra-fija.shrink .cat-btn {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+#barra-fija.shrink .cat-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.cat-icon {
+  width: 30px;
+  height: 30px;
   transition: all 0.3s ease;
 }
 
 #barra-fija.fijo {
-  position: fixed;
   top: 0;
   left: 0;
   z-index: 999;
@@ -73,18 +88,12 @@ header {
 
 
 
-
-.hero-buscador,
 .hero-categorias {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 10px;
   display: flex;
-  gap: 16px;
   justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
-  text-align: center;
+  gap: 10px;
+  padding: 10px 0;
 }
 
 
@@ -535,7 +544,7 @@ footer a {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   background: none;
   color: #000;
   font-weight: 600;
@@ -574,6 +583,7 @@ footer a {
   justify-content: center;
   align-items: center;
   margin-top: 10px;
+  padding: 10px;
 }
 
 .buscador-contenedor {

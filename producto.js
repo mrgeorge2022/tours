@@ -1,53 +1,38 @@
-const productos = JSON.parse(localStorage.getItem('productosJexp')) || [];
-
+// ✅ 1. Normaliza texto para encontrar el producto
 function normalizarTexto(texto) {
   return texto.toLowerCase()
     .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9\\s]/gi, "");
 }
 
+// ✅ 2. Obtiene parámetros de la URL
 function getParametro(nombre) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(nombre);
 }
 
-
-
-
-async function actualizarTasasDeCambio() {
-  try {
-    const respuesta = await fetch('https://api.exchangerate.host/latest?base=COP&symbols=USD,EUR,MXN,ARS,BRL,GBP,CLP,PEN');
-    const data = await respuesta.json();
-
-    const tasas = {
-      COP: 1,
-      USD: data.rates.USD,
-      EUR: data.rates.EUR,
-      MXN: data.rates.MXN,
-      ARS: data.rates.ARS,
-      BRL: data.rates.BRL,
-      GBP: data.rates.GBP,
-      CLP: data.rates.CLP,
-      PEN: data.rates.PEN
-    };
-
-    localStorage.setItem('tasasCambio', JSON.stringify(tasas));
-  } catch (error) {
-    console.error('Error al obtener tasas de cambio:', error);
-  }
+// ✅ 3. Ya no usa API. Solo usa localStorage
+function actualizarTasasDeCambio() {
+  // Función vacía porque ya no se usa API externa
+  console.log('Las tasas de cambio ya deben estar guardadas en localStorage.');
 }
 
+// ✅ 4. Obtiene tasas desde localStorage
 function obtenerTasas() {
   const guardadas = localStorage.getItem('tasasCambio');
-  if (guardadas) {
-    return JSON.parse(guardadas);
-  }
-  return { COP: 1 }; // Valor por defecto
+  return guardadas ? JSON.parse(guardadas) : { COP: 1 };
 }
 
-function formatearPrecio(precioCOP) {
+function actualizarPrecioProducto() {
+  const precioSpan = document.getElementById("precio-convertido");
+  if (!precioSpan) return;
+
   const moneda = localStorage.getItem('monedaSeleccionada') || 'COP';
-  const tasas = obtenerTasas();
+  const precioGuardado = localStorage.getItem('precioConvertidoVista');
+  if (!precioGuardado) {
+    precioSpan.textContent = 'Precio no disponible';
+    return;
+  }
 
   const simbolos = {
     COP: "$",
@@ -61,24 +46,24 @@ function formatearPrecio(precioCOP) {
     PEN: "S/"
   };
 
-  const precioConvertido = precioCOP * (tasas[moneda] || 1);
-  const precioFinal = moneda === 'COP'
-    ? Math.round(precioConvertido).toLocaleString('es-CO')
-    : (Math.floor(precioConvertido * 100) / 100).toFixed(2);
+  const valorNumerico = parseFloat(precioGuardado);
+  const precioFormateado = moneda === 'COP'
+    ? `${simbolos[moneda]} ${Math.round(valorNumerico).toLocaleString('es-CO')}`
+    : `${simbolos[moneda]} ${valorNumerico.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-  return `${simbolos[moneda] || '$'} ${precioFinal}`;
+  precioSpan.textContent = precioFormateado;
 }
 
+// ✅ 7. Si cambia la moneda, actualiza el precio
+window.addEventListener('storage', (e) => {
+  if (e.key === 'monedaSeleccionada') {
+    actualizarPrecioProducto();
+  }
+});
 
 
-
-
-
-
-
-
-
-window.addEventListener('DOMContentLoaded', () => {
+/// ✅ 8. DOMContentLoaded
+window.addEventListener('DOMContentLoaded', async () => {
   const nombre = decodeURIComponent(getParametro('nombre') || '').trim();
   const prod = productos.find(p => normalizarTexto(p.nombre) === normalizarTexto(nombre));
 
@@ -87,87 +72,86 @@ window.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  document.title = prod.nombre;
+  await actualizarTasasDeCambio(); // tasas listas antes de mostrar precio
 
-  const imagenes = prod.imagenes && prod.imagenes.length ? prod.imagenes : [prod.imagen];
-  window.imagenesDelProducto = imagenes;
+const moneda = localStorage.getItem('monedaSeleccionada') || 'COP';
+localStorage.setItem('monedaUsadaVista', moneda); // por compatibilidad si aún la usas
 
-const collageHTML = `
-  <div class="contenedor-collage">
-    <div class="collage-producto">
-      <div class="img-grande">
-        <img src="${imagenes[0]}" onclick="verImagenCompleta('${prod.nombre}', 0)" />
+  const imagenes = prod.imagenes?.length ? prod.imagenes : [prod.imagen];
+  const collageHTML = `
+    <div class="contenedor-collage">
+      <div class="collage-producto">
+        <div class="img-grande">
+          <img src="${imagenes[0]}" onclick="verImagenCompleta('${prod.nombre}', 0)" />
+        </div>
+        <div class="img-pequenas">
+          ${imagenes[1] ? `<img src="${imagenes[1]}" onclick="verImagenCompleta('${prod.nombre}', 1)" />` : ''}
+          ${imagenes[2] ? `<img src="${imagenes[2]}" onclick="verImagenCompleta('${prod.nombre}', 2)" />` : ''}
+        </div>
       </div>
-      <div class="img-pequenas">
-        ${imagenes[1] ? `<img src="${imagenes[1]}" onclick="verImagenCompleta('${prod.nombre}', 1)" />` : ''}
-        ${imagenes[2] ? `<img src="${imagenes[2]}" onclick="verImagenCompleta('${prod.nombre}', 2)" />` : ''}
-      </div>
+      <button class="mostrar-galeria-encima" onclick="mostrarGaleriaExpandida()">Mostrar más imágenes</button>
     </div>
-    <button class="mostrar-galeria-encima" onclick="mostrarGaleriaExpandida()">Mostrar más imágenes</button>
-  </div>
 
-  <div id="galeria-expandida" class="galeria-expandida">
-    ${imagenes.map((img, i) => `<img src="${img}" onclick="verImagenCompleta('${prod.nombre}', ${i})" />`).join('')}
-  </div>
+    <div id="galeria-expandida" class="galeria-expandida">
+      ${imagenes.map((img, i) => `<img src="${img}" onclick="verImagenCompleta('${prod.nombre}', ${i})" />`).join('')}
+    </div>
 
-<div class="barra-flotante-wsp">
-<div class="precio-container">
-  <span class="label">Precio:</span>
-  <span class="valor">${formatearPrecio(prod.precioCOP)}</span>
-</div>
-  <a id="btn-wsp" class="cta-wsp">Reservar</a>
-</div>
-
-`;
-
-
-
-
-
-  const contadoresHTML = crearContadoresHTML();
+    <div class="barra-flotante-wsp">
+      <div class="precio-container">
+        <span class="label">Precio:</span>
+        <span class="valor" id="precio-convertido">Cargando...</span>
+      </div>
+      <a id="btn-wsp" class="cta-wsp">Reservar</a>
+    </div>
+  `;
 
   document.getElementById('vista-producto').innerHTML = `
     <div>
-    ${collageHTML}
+      ${collageHTML}
       <h1>${prod.nombre}</h1>
       <p><strong>${prod.ciudad}</strong> - ${prod.tipo.toUpperCase()}</p>
       <p>${prod.descripcion}</p>
-<div class="fila-contadores-calendario">
-  <div class="grupo-contadores">
-    ${contadoresHTML}
-  </div>
-  <div class="contenedor-calendario">
-    <label><strong>Selecciona fecha de reserva:</strong></label>
-    <div id="calendario-reserva"></div>
-  </div>
-</div>
-
+      <div class="fila-contadores-calendario">
+        <div class="grupo-contadores">${crearContadoresHTML()}</div>
+        <div class="contenedor-calendario">
+          <label><strong>Selecciona fecha de reserva:</strong></label>
+          <div id="calendario-reserva"></div>
+        </div>
+      </div>
       <div id="form-nombres"></div>
       <span id="msg-copiado">¡Enlace copiado!</span>
     </div>
   `;
 
-flatpickr("#calendario-reserva", {
-  inline: true,
-  locale: "es", // 👈 esta línea activa el español
-  dateFormat: "d-m-Y",
-  minDate: "today",
-  onChange: function(selectedDates, dateStr) {
-    let hiddenInput = document.getElementById("fecha-reserva");
-    if (!hiddenInput) {
-      hiddenInput = document.createElement("input");
-      hiddenInput.type = "hidden";
-      hiddenInput.id = "fecha-reserva";
-      document.body.appendChild(hiddenInput);
+  // ✅ Una vez que el HTML ya está en el DOM, actualizamos el precio
+  actualizarPrecioProducto();
+
+  flatpickr("#calendario-reserva", {
+    inline: true,
+    locale: "es",
+    dateFormat: "d-m-Y",
+    minDate: "today",
+    onChange: function (_, dateStr) {
+      let hiddenInput = document.getElementById("fecha-reserva");
+      if (!hiddenInput) {
+        hiddenInput = document.createElement("input");
+        hiddenInput.type = "hidden";
+        hiddenInput.id = "fecha-reserva";
+        document.body.appendChild(hiddenInput);
+      }
+      hiddenInput.value = dateStr;
+      actualizarLinkWhatsApp(prod);
     }
-    hiddenInput.value = dateStr;
-    actualizarLinkWhatsApp();
-  }
+  });
+
+  actualizarLinkWhatsApp(prod); // también actualiza el enlace con moneda actual
 });
 
 
-  actualizarLinkWhatsApp(prod);
-});
+
+
+
+
 
 function mostrarGaleriaExpandida() {
   const galeria = document.getElementById('galeria-expandida');
@@ -176,42 +160,17 @@ function mostrarGaleriaExpandida() {
   if (boton) boton.style.display = 'none';
 }
 
-
-
-
-
-function crearCollageHTML(imagenes, nombre) {
-  if (imagenes.length < 2) return '';
-  return `
-    <div class="collage-producto">
-      <img src="${imagenes[0]}" onclick="verImagenCompleta('${nombre}', 0)" />
-      ${imagenes[1] ? `<img src="${imagenes[1]}" onclick="verImagenCompleta('${nombre}', 1)" />` : ''}
-      ${imagenes[2] ? `<img src="${imagenes[2]}" onclick="verImagenCompleta('${nombre}', 2)" />` : ''}
-    </div>
-    <button onclick="document.getElementById('galeria-expandida').style.display='flex'; this.style.display='none';" class="mostrar-galeria">Mostrar todas las imágenes</button>
-  `;
-}
-
-function crearGaleriaHTML(imagenes, nombre) {
-  return `
-    <div id="galeria-expandida">
-      ${imagenes.map((img, i) => `<img src="${img}" onclick="verImagenCompleta('${nombre}', ${i})" />`).join('')}
-    </div>
-  `;
-}
-
 function crearContadoresHTML() {
   return `
     <div class="grupo-contadores">
       <h3>Selecciona tu grupo:</h3>
-        ${crearContador('adultos', 'Adultos', 'Mayores de 13 años')}
-        ${crearContador('ninos', 'Niños', 'De 2 a 12 años')}
-        ${crearContador('bebes', 'Bebés', 'Menores de 2 años')}
+      ${crearContador('adultos', 'Adultos', 'Mayores de 13 años')}
+      ${crearContador('ninos', 'Niños', 'De 2 a 12 años')}
+      ${crearContador('bebes', 'Bebés', 'Menores de 2 años')}
       ${crearContador('mascotas', 'Mascotas', '')}
     </div>
   `;
 }
-
 
 function crearContador(id, label, subtitulo = '') {
   return `
@@ -228,9 +187,6 @@ function crearContador(id, label, subtitulo = '') {
     </div>
   `;
 }
-
-
-
 
 function cambiarCantidad(id, cambio) {
   const span = document.getElementById(`count-${id}`);
@@ -266,17 +222,14 @@ function actualizarCamposDeNombres() {
 function actualizarLinkWhatsApp(producto) {
   const nombre = producto ? producto.nombre : document.title;
   const ciudad = producto ? producto.ciudad : '';
-
   const adultos = document.getElementById('count-adultos')?.textContent || '0';
   const ninos = document.getElementById('count-ninos')?.textContent || '0';
   const bebes = document.getElementById('count-bebes')?.textContent || '0';
   const mascotas = document.getElementById('count-mascotas')?.textContent || '0';
   const fecha = document.getElementById('fecha-reserva')?.value || '';
-
   let mensaje = `Hola, quiero reservar: ${nombre} en ${ciudad}`;
   if (fecha) mensaje += `\nFecha: ${fecha}`;
   mensaje += `\nAdultos: ${adultos}, Niños: ${ninos}, Bebés: ${bebes}, Mascotas: ${mascotas}`;
-
   const url = `https://wa.me/573237204014?text=${encodeURIComponent(mensaje)}`;
   document.getElementById('btn-wsp').href = url;
 }
@@ -297,11 +250,9 @@ function compartirProducto() {
 window.verImagenCompleta = function(nombre, idx) {
   const imagenes = window.imagenesDelProducto || [];
   if (!imagenes.length) return;
-
   let current = idx;
   const existente = document.getElementById('modal-lightbox');
   if (existente) existente.remove();
-
   const lb = document.createElement('div');
   lb.id = 'modal-lightbox';
   lb.className = 'modal-lightbox';

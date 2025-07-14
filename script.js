@@ -7,8 +7,7 @@ const productos = [
     imagenes: [
       "img/sanandres.jpg",
       "img/sanandres2.jpg",
-      "img/sanandres3.jpg",
-      "img/sanandres3.jpg",
+      "img/sanandres3.jpg"
     ],
     precioCOP: 100000,
     descripcion: "Disfruta de 4 días inolvidables en las playas paradisíacas de San Andrés. Todo incluido: vuelos, hotel, alimentación y tours."
@@ -21,7 +20,7 @@ const productos = [
     imagenes: [
       "img/baru.jpg",
       "img/baru2.jpg",
-      "img/baru3.jpg",
+      "img/baru3.jpg"
     ],
     precioCOP: 100000,
     descripcion: "Escápate por un día a las aguas cristalinas de Isla Barú. Transporte, almuerzo y actividades acuáticas incluidas."
@@ -30,10 +29,11 @@ const productos = [
     ciudad: "Santa Marta",
     nombre: "Tour a Ciudad Perdida",
     tipo: "tour",
-    imagen: "img/santamarta.jpg",
+    imagen: "img/ciudadperdida.jpg",
     imagenes: [
-      "img/santamarta2.jpg",
-      "img/santamarta3.jpg"
+      "img/ciudadperdida.jpg",
+      "img/ciudadperdida2.jpg",
+      "img/ciudadperdida3.jpg"
     ],
     precioCOP: 800000,
     descripcion: "Aventura de varios días en la Sierra Nevada hasta Ciudad Perdida, una experiencia mágica llena de historia y naturaleza."
@@ -42,11 +42,11 @@ const productos = [
     ciudad: "Medellín",
     nombre: "Explorando Medellín en 2 días",
     tipo: "tour",
-    imagen: "img/sanandres.jpg",
+    imagen: "img/medellin.jpg",
     imagenes: [
-      "img/sanandres.jpg",
-      "img/sanandres2.jpg",
-      "img/sanandres3.jpg"
+      "img/medellin.jpg",
+      "img/medellin2.jpg",
+      "img/medellin3.jpg"
     ],
     precioCOP: 950000,
     descripcion: "Recorre Medellín como nunca antes: Graffitour, metrocable, parques, museos y lo mejor de la gastronomía paisa."
@@ -55,11 +55,11 @@ const productos = [
     ciudad: "Bogotá",
     nombre: "Aventura en la Candelaria",
     tipo: "pasadía",
-    imagen: "img/baru.jpg",
+    imagen: "img/bogota.jpg",
     imagenes: [
-      "img/baru.jpg",
-      "img/baru2.jpg",
-      "img/baru3.jpg"
+      "img/bogota.jpg",
+      "img/bogota2.jpg",
+      "img/bogota3.jpg"
     ],
     precioCOP: 1200000,
     descripcion: "Explora el centro histórico de Bogotá con guías locales. Arte, historia, gastronomía y mucha cultura en un solo día."
@@ -68,10 +68,11 @@ const productos = [
     ciudad: "Cartagena",
     nombre: "Tour por la Ciudad Amurallada",
     tipo: "tour",
-    imagen: "img/santamarta.jpg",
+    imagen: "img/cartagena.jpg",
     imagenes: [
-      "img/santamarta2.jpg",
-      "img/santamarta3.jpg"
+      "img/cartagena.jpg",
+      "img/cartagena2.jpg",
+      "img/cartagena3.jpg"
     ],
     precioCOP: 450000,
     descripcion: "Déjate llevar por la magia de las calles coloniales de Cartagena. Tour guiado con transporte y degustaciones incluidas."
@@ -80,11 +81,11 @@ const productos = [
     ciudad: "Santa Marta",
     nombre: "Tayrona - Naturaleza en su máxima expresión",
     tipo: "viaje",
-    imagen: "img/sanandres.jpg",
+    imagen: "img/tayrona.jpg",
     imagenes: [
-      "img/sanandres.jpg",
-      "img/sanandres2.jpg",
-      "img/sanandres3.jpg"
+      "img/tayrona.jpg",
+      "img/tayrona2.jpg",
+      "img/tayrona3.jpg"
     ],
     precioCOP: 600000,
     descripcion: "Descubre las mejores playas del Parque Tayrona, camina por senderos naturales y vive la selva caribeña."
@@ -93,10 +94,11 @@ const productos = [
     ciudad: "San Andrés",
     nombre: "Snorkeling en el Paraíso",
     tipo: "viaje",
-    imagen: "img/santamarta.jpg",
+    imagen: "img/snorkeling.jpg",
     imagenes: [
-      "img/santamarta2.jpg",
-      "img/santamarta3.jpg"
+      "img/snorkeling.jpg",
+      "img/snorkeling2.jpg",
+      "img/snorkeling3.jpg"
     ],
     precioCOP: 300000,
     descripcion: "Sumérgete en los arrecifes de San Andrés con nuestro tour de snorkeling. Equipo, guía y traslados incluidos."
@@ -105,11 +107,11 @@ const productos = [
     ciudad: "Medellín",
     nombre: "Tour cultural en Comuna 13",
     tipo: "pasadía",
-    imagen: "img/baru.jpg",
+    imagen: "img/comuna13.jpg",
     imagenes: [
-      "img/baru.jpg",
-      "img/baru2.jpg",
-      "img/baru3.jpg"
+      "img/comuna13.jpg",
+      "img/comuna13_2.jpg",
+      "img/comuna13_3.jpg"
     ],
     precioCOP: 200000,
     descripcion: "Conoce la historia de transformación de la Comuna 13 con guías locales, música urbana, arte callejero y comida típica."
@@ -118,17 +120,16 @@ const productos = [
     ciudad: "Cali",
     nombre: "Salsa y Cultura en Cali",
     tipo: "tour",
-    imagen: "img/sanandres.jpg",
+    imagen: "img/cali.jpg",
     imagenes: [
-      "img/sanandres.jpg",
-      "img/sanandres2.jpg",
-      "img/sanandres3.jpg"
+      "img/cali.jpg",
+      "img/cali2.jpg",
+      "img/cali3.jpg"
     ],
-    precio: "350.000",
+    precioCOP: 200000,
     descripcion: "Vive la energía de Cali con clases de salsa, visitas a sitios emblemáticos y una noche de rumba inolvidable."
   }
 ];
-
 
 
 
@@ -210,14 +211,42 @@ function guardarPreferencias() {
   const moneda = selectorMoneda.value;
   const idioma = selectorIdioma.value;
 
-  localStorage.setItem('moneda', moneda);
+  localStorage.setItem('monedaSeleccionada', moneda);
   localStorage.setItem('idiomaSeleccionado', idioma);
 
   cerrarModalIdiomaMoneda();
-  cargarTasaMoneda(); // actualiza precios según la moneda
 
-  aplicarGoogleTranslate(idioma); // aplica la traducción automática
+  actualizarTasasDeCambio().then(() => {
+    const nombre = decodeURIComponent(getParametro('nombre') || '').trim();
+    const prod = productos.find(p => normalizarTexto(p.nombre) === normalizarTexto(nombre));
+    const tasas = obtenerTasas();
+
+    if (prod && tasas[moneda]) {
+      const tasa = tasas[moneda];
+      const precioConvertido = prod.precioCOP * tasa;
+
+      localStorage.setItem('precioConvertidoVista', precioConvertido);
+
+      const precioFormateado = new Intl.NumberFormat('es-CO', {
+        style: 'currency',
+        currency: moneda,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(precioConvertido);
+
+      const precioSpan = document.getElementById("precio-convertido");
+      if (precioSpan) precioSpan.textContent = precioFormateado;
+    }
+
+    actualizarPrecioProducto();
+  });
+
+  aplicarGoogleTranslate(idioma);
 }
+
+
+
+
 
 localStorage.setItem('productosJexp', JSON.stringify(productos));
 
@@ -232,39 +261,68 @@ function normalizarTexto(texto) {
 function mostrarProductos(lista) {
   const contenedor = document.getElementById("lista-productos");
   const noResult = document.getElementById("no-result");
+
+  if (!contenedor) return;
+
   contenedor.innerHTML = "";
 
-  if (lista.length === 0) {
+  if (!lista.length) {
     if (noResult) noResult.style.display = "block";
     return;
-  } else {
-    if (noResult) noResult.style.display = "none";
   }
+
+  if (noResult) noResult.style.display = "none";
+
   lista.forEach((p, idx) => {
     const card = document.createElement("div");
     card.className = "producto animar";
-    // Normalizar nombre y ciudad para los data-attributes
-    card.setAttribute('data-nombre', normalizarTexto(p.nombre));
-    card.setAttribute('data-destino', normalizarTexto(p.ciudad));
+    card.setAttribute("data-nombre", normalizarTexto(p.nombre));
+    card.setAttribute("data-destino", normalizarTexto(p.ciudad));
+
     card.innerHTML = `
       <img src="${p.imagen}" alt="${p.nombre}" class="producto-img" />
       <div class="info">
         <h3 class="producto-nombre">${p.nombre}</h3>
         <p class="producto-ciudad"><strong>${p.ciudad}</strong></p>
         <p class="producto-tipo">${p.tipo.charAt(0).toUpperCase() + p.tipo.slice(1)}</p>
-        <p class="precio" data-precio-base="${p.precioCOP}"><strong>${p.precioCOP}</strong></p>
+<p class="precio" data-precio-base="${p.precioCOP}">
+  <strong>${formatearMoneda(p.precioCOP * tasaConversion)}</strong>
+</p>
+
+        </p>
       </div>
     `;
-    card.onclick = () => {
-      const nombreURL = encodeURIComponent(productos[idx].nombre);
-      window.open(`producto.html?nombre=${nombreURL}`, '_blank');
-    };
-  contenedor.appendChild(card);
-  setTimeout(() => card.classList.add('visible'), 100);
-});
 
-actualizarPrecios(); // 👈 esto es clave
+card.onclick = () => {
+  try {
+    const moneda = localStorage.getItem('monedaSeleccionada') || 'COP';
+    const tasas = JSON.parse(localStorage.getItem('tasasCambio')) || { COP: 1 };
+    const tasa = tasas[moneda] || 1;
+
+    const precioCOP = productos[idx].precioCOP;
+    const precioConvertido = precioCOP * tasa;
+
+    // Guardamos el precio convertido y la moneda usada
+    localStorage.setItem('precioConvertidoVista', precioConvertido.toFixed(2));
+
+
+    // Abrimos el producto
+    const nombreURL = encodeURIComponent(productos[idx].nombre);
+    window.open(`producto.html?nombre=${nombreURL}`, "_blank");
+  } catch (err) {
+    console.error("Error al abrir el producto:", err);
+  }
+};
+
+
+
+    contenedor.appendChild(card);
+    setTimeout(() => card.classList.add("visible"), 100);
+  });
+
+  actualizarPrecios(); // Siempre necesario
 }
+
 
 function toggleFavorito(nombre) {
   if (favoritos.includes(nombre)) {
@@ -303,8 +361,9 @@ function verDetalles(idx) {
       </div>
 
 <p style="font-size:1.2em;" class="precio" data-precio-base="${p.precioCOP}">
-  <strong>Precio:</strong> ${p.precioCOP}
+  <strong>Precio:</strong> ${formatearMoneda(p.precioCOP * tasaConversion)}
 </p>
+
 
       <p style="margin:16px 0;">Una experiencia inolvidable en <strong>${p.ciudad}</strong>. ¡Reserva ya y disfruta cada momento!</p>
 

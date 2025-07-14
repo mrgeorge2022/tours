@@ -10,7 +10,7 @@ const productos = [
       "img/sanandres3.jpg",
       "img/sanandres3.jpg",
     ],
-    precio: "1.200.000",
+    precioCOP: 100000,
     descripcion: "Disfruta de 4 días inolvidables en las playas paradisíacas de San Andrés. Todo incluido: vuelos, hotel, alimentación y tours."
   },
   {
@@ -23,7 +23,7 @@ const productos = [
       "img/baru2.jpg",
       "img/baru3.jpg",
     ],
-    precio: "120.000",
+    precioCOP: 100000,
     descripcion: "Escápate por un día a las aguas cristalinas de Isla Barú. Transporte, almuerzo y actividades acuáticas incluidas."
   },
   {
@@ -35,7 +35,7 @@ const productos = [
       "img/santamarta2.jpg",
       "img/santamarta3.jpg"
     ],
-    precio: "800.000",
+    precioCOP: 800000,
     descripcion: "Aventura de varios días en la Sierra Nevada hasta Ciudad Perdida, una experiencia mágica llena de historia y naturaleza."
   },
   {
@@ -48,7 +48,7 @@ const productos = [
       "img/sanandres2.jpg",
       "img/sanandres3.jpg"
     ],
-    precio: "950.000",
+    precioCOP: 950000,
     descripcion: "Recorre Medellín como nunca antes: Graffitour, metrocable, parques, museos y lo mejor de la gastronomía paisa."
   },
   {
@@ -61,7 +61,7 @@ const productos = [
       "img/baru2.jpg",
       "img/baru3.jpg"
     ],
-    precio: "150.000",
+    precioCOP: 1200000,
     descripcion: "Explora el centro histórico de Bogotá con guías locales. Arte, historia, gastronomía y mucha cultura en un solo día."
   },
   {
@@ -73,7 +73,7 @@ const productos = [
       "img/santamarta2.jpg",
       "img/santamarta3.jpg"
     ],
-    precio: "450.000",
+    precioCOP: 450000,
     descripcion: "Déjate llevar por la magia de las calles coloniales de Cartagena. Tour guiado con transporte y degustaciones incluidas."
   },
   {
@@ -86,7 +86,7 @@ const productos = [
       "img/sanandres2.jpg",
       "img/sanandres3.jpg"
     ],
-    precio: "600.000",
+    precioCOP: 600000,
     descripcion: "Descubre las mejores playas del Parque Tayrona, camina por senderos naturales y vive la selva caribeña."
   },
   {
@@ -98,7 +98,7 @@ const productos = [
       "img/santamarta2.jpg",
       "img/santamarta3.jpg"
     ],
-    precio: "300.000",
+    precioCOP: 300000,
     descripcion: "Sumérgete en los arrecifes de San Andrés con nuestro tour de snorkeling. Equipo, guía y traslados incluidos."
   },
   {
@@ -111,7 +111,7 @@ const productos = [
       "img/baru2.jpg",
       "img/baru3.jpg"
     ],
-    precio: "200.000",
+    precioCOP: 200000,
     descripcion: "Conoce la historia de transformación de la Comuna 13 con guías locales, música urbana, arte callejero y comida típica."
   },
   {
@@ -130,6 +130,94 @@ const productos = [
 ];
 
 
+
+
+function abrirModalIdiomaMoneda() {
+  const modal = document.getElementById('modal-moneda');
+  if (modal) modal.classList.remove('oculto');
+}
+
+function cerrarModalIdiomaMoneda() {
+  const modal = document.getElementById('modal-moneda');
+  if (modal) modal.classList.add('oculto');
+}
+
+
+function cargarTasaMoneda() {
+  if (monedaSeleccionada === 'COP') {
+    tasaConversion = 1;
+    actualizarPrecios();
+    return;
+  }
+
+  fetch('https://open.er-api.com/v6/latest/COP')
+    .then(res => res.json())
+    .then(data => {
+      const rates = data.rates;
+      tasaConversion = rates[monedaSeleccionada] || 1;
+      actualizarPrecios();
+    })
+    .catch(err => {
+      console.error('Error al cargar tasas:', err);
+      tasaConversion = 1;
+      actualizarPrecios();
+    });
+}
+
+function formatearMoneda(valor) {
+  return new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: monedaSeleccionada
+  }).format(valor);
+}
+
+function actualizarPrecios() {
+  document.querySelectorAll('[data-precio-base]').forEach(el => {
+    const base = parseFloat(el.dataset.precioBase);
+    const convertido = base * tasaConversion;
+    el.innerHTML = `<strong>${formatearMoneda(convertido)}</strong>`;
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const selector = document.getElementById('selector-moneda');
+  if (selector) {
+    selector.value = monedaSeleccionada;
+    selector.addEventListener('change', e => {
+      monedaSeleccionada = e.target.value;
+      localStorage.setItem('moneda', monedaSeleccionada);
+      cargarTasaMoneda();
+    });
+  }
+
+  cargarTasaMoneda(); // carga inicial
+});
+
+
+function aplicarGoogleTranslate(idioma) {
+  const combo = document.querySelector('.goog-te-combo');
+  if (combo) {
+    combo.value = idioma;
+    combo.dispatchEvent(new Event('change'));
+  }
+}
+
+
+function guardarPreferencias() {
+  const selectorMoneda = document.getElementById('selector-moneda');
+  const selectorIdioma = document.getElementById('selector-idioma');
+
+  const moneda = selectorMoneda.value;
+  const idioma = selectorIdioma.value;
+
+  localStorage.setItem('moneda', moneda);
+  localStorage.setItem('idiomaSeleccionado', idioma);
+
+  cerrarModalIdiomaMoneda();
+  cargarTasaMoneda(); // actualiza precios según la moneda
+
+  aplicarGoogleTranslate(idioma); // aplica la traducción automática
+}
 
 localStorage.setItem('productosJexp', JSON.stringify(productos));
 
@@ -164,16 +252,18 @@ function mostrarProductos(lista) {
         <h3 class="producto-nombre">${p.nombre}</h3>
         <p class="producto-ciudad"><strong>${p.ciudad}</strong></p>
         <p class="producto-tipo">${p.tipo.charAt(0).toUpperCase() + p.tipo.slice(1)}</p>
-        <p class="precio" data-precio-base="${p.precio}"><strong>${p.precio}</strong></p>
+        <p class="precio" data-precio-base="${p.precioCOP}"><strong>${p.precioCOP}</strong></p>
       </div>
     `;
     card.onclick = () => {
       const nombreURL = encodeURIComponent(productos[idx].nombre);
       window.open(`producto.html?nombre=${nombreURL}`, '_blank');
     };
-    contenedor.appendChild(card);
-    setTimeout(() => card.classList.add('visible'), 100);
-  });
+  contenedor.appendChild(card);
+  setTimeout(() => card.classList.add('visible'), 100);
+});
+
+actualizarPrecios(); // 👈 esto es clave
 }
 
 function toggleFavorito(nombre) {
@@ -212,7 +302,10 @@ function verDetalles(idx) {
         `).join('')}
       </div>
 
-      <p style="font-size:1.2em;"><strong>Precio:</strong> ${p.precio}</p>
+<p style="font-size:1.2em;" class="precio" data-precio-base="${p.precioCOP}">
+  <strong>Precio:</strong> ${p.precioCOP}
+</p>
+
       <p style="margin:16px 0;">Una experiencia inolvidable en <strong>${p.ciudad}</strong>. ¡Reserva ya y disfruta cada momento!</p>
 
       <a href="https://wa.me/573237204014?text=Hola, quiero reservar: ${encodeURIComponent(p.nombre)} en ${p.ciudad}" 
@@ -222,6 +315,7 @@ function verDetalles(idx) {
       </a>
     </div>
   `;
+  actualizarPrecios();
 }
 
 window.verImagenCompleta = function(nombre, idx) {
@@ -576,5 +670,8 @@ window.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('scroll', posicionarSugerencias, true);
 });
 
+
+let tasaConversion = 1;
+let monedaSeleccionada = localStorage.getItem('moneda') || 'COP';
 
 

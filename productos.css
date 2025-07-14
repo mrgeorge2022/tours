@@ -384,28 +384,57 @@ button.decrement {
 
 
 /* === Campos de nombres dinámicos === */
+/* Contenedor centrado */
+#form-nombres {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  text-align: left;
+}
+
+/* Cada grupo de campos */
 #form-nombres div {
   margin-bottom: 10px;
 }
 
+/* Estilo de los inputs */
 #form-nombres input {
   width: 100%;
   padding: 8px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  box-sizing: border-box;
+  display: block;
 }
 
+/* Enfocado */
 #form-nombres input:focus {
-  border-color: #1e90ff;
+  border-color: #000000;
   outline: none;
-  box-shadow: 0 0 4px rgba(30, 144, 255, 0.4);
 }
+
 
 /* === Calendario === */
 #calendario-reserva {
   max-width: 300px;
   margin-top: 8px;
 }
+
+/* Día activo (opcional para visibilidad) */
+.flatpickr-day.selected {
+  background: #000000 !important;
+  color: white !important;
+  border: none;
+}
+
+
+.flatpickr-day.today {
+  background: none !important;
+  color: #000000 !important;
+}
+
+
+
 
 /* === Botones de acción === */
 .btn-compartir {

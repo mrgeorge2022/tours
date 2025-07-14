@@ -11,6 +11,73 @@ function getParametro(nombre) {
   return urlParams.get(nombre);
 }
 
+
+
+
+async function actualizarTasasDeCambio() {
+  try {
+    const respuesta = await fetch('https://api.exchangerate.host/latest?base=COP&symbols=USD,EUR,MXN,ARS,BRL,GBP,CLP,PEN');
+    const data = await respuesta.json();
+
+    const tasas = {
+      COP: 1,
+      USD: data.rates.USD,
+      EUR: data.rates.EUR,
+      MXN: data.rates.MXN,
+      ARS: data.rates.ARS,
+      BRL: data.rates.BRL,
+      GBP: data.rates.GBP,
+      CLP: data.rates.CLP,
+      PEN: data.rates.PEN
+    };
+
+    localStorage.setItem('tasasCambio', JSON.stringify(tasas));
+  } catch (error) {
+    console.error('Error al obtener tasas de cambio:', error);
+  }
+}
+
+function obtenerTasas() {
+  const guardadas = localStorage.getItem('tasasCambio');
+  if (guardadas) {
+    return JSON.parse(guardadas);
+  }
+  return { COP: 1 }; // Valor por defecto
+}
+
+function formatearPrecio(precioCOP) {
+  const moneda = localStorage.getItem('monedaSeleccionada') || 'COP';
+  const tasas = obtenerTasas();
+
+  const simbolos = {
+    COP: "$",
+    USD: "US$",
+    EUR: "€",
+    MXN: "MX$",
+    ARS: "AR$",
+    BRL: "R$",
+    GBP: "£",
+    CLP: "CLP$",
+    PEN: "S/"
+  };
+
+  const precioConvertido = precioCOP * (tasas[moneda] || 1);
+  const precioFinal = moneda === 'COP'
+    ? Math.round(precioConvertido).toLocaleString('es-CO')
+    : (Math.floor(precioConvertido * 100) / 100).toFixed(2);
+
+  return `${simbolos[moneda] || '$'} ${precioFinal}`;
+}
+
+
+
+
+
+
+
+
+
+
 window.addEventListener('DOMContentLoaded', () => {
   const nombre = decodeURIComponent(getParametro('nombre') || '').trim();
   const prod = productos.find(p => normalizarTexto(p.nombre) === normalizarTexto(nombre));
@@ -46,7 +113,7 @@ const collageHTML = `
 <div class="barra-flotante-wsp">
 <div class="precio-container">
   <span class="label">Precio:</span>
-  <span class="valor">$${prod.precio}</span>
+  <span class="valor">${formatearPrecio(prod.precioCOP)}</span>
 </div>
   <a id="btn-wsp" class="cta-wsp">Reservar</a>
 </div>
@@ -76,28 +143,28 @@ const collageHTML = `
 </div>
 
       <div id="form-nombres"></div>
-
-      <button onclick="compartirProducto()" class="btn-compartir">Compartir</button>
       <span id="msg-copiado">¡Enlace copiado!</span>
     </div>
   `;
 
-  flatpickr("#calendario-reserva", {
-    inline: true,
-    dateFormat: "Y-m-d",
-    minDate: "today",
-    onChange: function(selectedDates, dateStr) {
-      let hiddenInput = document.getElementById("fecha-reserva");
-      if (!hiddenInput) {
-        hiddenInput = document.createElement("input");
-        hiddenInput.type = "hidden";
-        hiddenInput.id = "fecha-reserva";
-        document.body.appendChild(hiddenInput);
-      }
-      hiddenInput.value = dateStr;
-      actualizarLinkWhatsApp();
+flatpickr("#calendario-reserva", {
+  inline: true,
+  locale: "es", // 👈 esta línea activa el español
+  dateFormat: "d-m-Y",
+  minDate: "today",
+  onChange: function(selectedDates, dateStr) {
+    let hiddenInput = document.getElementById("fecha-reserva");
+    if (!hiddenInput) {
+      hiddenInput = document.createElement("input");
+      hiddenInput.type = "hidden";
+      hiddenInput.id = "fecha-reserva";
+      document.body.appendChild(hiddenInput);
     }
-  });
+    hiddenInput.value = dateStr;
+    actualizarLinkWhatsApp();
+  }
+});
+
 
   actualizarLinkWhatsApp(prod);
 });
@@ -176,10 +243,10 @@ function cambiarCantidad(id, cambio) {
 
 function actualizarCamposDeNombres() {
   const tipos = [
-    { id: 'adultos', label: 'Adultos' },
-    { id: 'ninos', label: 'Niños' },
-    { id: 'bebes', label: 'Bebés' },
-    { id: 'mascotas', label: 'Mascotas' }
+    { id: 'adultos', label: 'Adulto' },
+    { id: 'ninos', label: 'Niño' },
+    { id: 'bebes', label: 'Bebé' },
+    { id: 'mascotas', label: 'Mascota' }
   ];
   const contenedor = document.getElementById('form-nombres');
   contenedor.innerHTML = '';

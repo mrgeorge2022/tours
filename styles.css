@@ -23,6 +23,8 @@ header {
 
 
 
+
+
 .idioma-moneda-btn {
   background: none;
   border: none;
@@ -63,6 +65,15 @@ header {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+
+
+
+
+
+
+
+
+
 .hero-buscador,
 .hero-categorias {
   max-width: 1000px;
@@ -85,8 +96,8 @@ header {
 }
 
 .hero-categorias .cat-icon {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   transition: all 0.3s ease;
 }
 
@@ -236,6 +247,120 @@ header {
 .categorias div:hover {
   background: #0056b3;
 }
+
+
+
+
+
+
+
+.modal-moneda {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.modal-contenido {
+  background: #ffffff;
+  padding: 30px 25px;
+  border-radius: 12px;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  font-family: 'Segoe UI', sans-serif;
+  animation: fadeIn 0.3s ease;
+
+  /* 👇 CENTRADO DE CONTENIDO */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.seccion-modal {
+  width: 100%;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.seccion-modal label {
+  font-weight: bold;
+  color: #444;
+  display: block;
+  margin-bottom: 6px;
+}
+
+
+.modal-contenido h2 {
+  margin-top: 0;
+  font-size: 22px;
+  color: #333;
+}
+
+.modal-contenido select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.cerrar {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 24px;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.cerrar:hover {
+  color: #ff3b3b;
+}
+
+.btn-guardar-moneda {
+  width: 100%;
+  padding: 12px;
+  background-color: #6c757d; /* Gris neutro */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-guardar-moneda:hover {
+  background-color: #5a6268; /* Gris más oscuro al pasar el mouse */
+}
+
+.oculto {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+
+
+
+
+
 
 /* PRODUCTOS */
 .productos {

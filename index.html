@@ -7,12 +7,15 @@
   <link rel="icon" type="image/png" href="logos/logoinicio.png">
   <link rel="stylesheet" href="styles.css" />
   <script defer src="script.js"></script>
+
+
 </head>
+
 <body>
 <!-- HERO + BUSCADOR UNIFICADO (versión sencilla, sin div envolvente) -->
 <section id="hero-jexp">
   <div class="hero-simple-header">
-    <!-- Logo para pantallas grandes -->
+        <!-- Logo para pantallas grandes -->
     <img src="logos/logo.png" alt="Jexpedition logo" class="hero-logo hero-logo-lg" />
 
     <!-- Logo para pantallas pequeñas -->
@@ -32,6 +35,56 @@
     <img src="iconos/menu.png" alt="Menú" class="icono-boton" />
   </button>
 </div>
+
+
+
+<div id="modal-moneda" class="modal-moneda oculto">
+  <div class="modal-contenido">
+    <span class="cerrar" onclick="cerrarModalIdiomaMoneda()">&times;</span>
+    <h2>Preferencias</h2>
+
+    <div class="seccion-modal" id="google_translate_element"></div>
+
+<select id="selector-idioma">
+  <option value="es">Español 🇪🇸</option>
+  <option value="en">English 🇺🇸</option>
+  <option value="zh">中文 🇨🇳</option>
+  <option value="hi">हिन्दी 🇮🇳</option>
+  <option value="ar">العربية 🇸🇦</option>
+  <option value="fr">Français 🇫🇷</option>
+  <option value="pt">Português 🇧🇷</option>
+  <option value="ru">Русский 🇷🇺</option>
+  <option value="bn">বাংলা 🇧🇩</option>
+  <option value="ja">日本語 🇯🇵</option>
+</select>
+
+    <!-- Sección de moneda -->
+    <div class="seccion-modal">
+      <label for="selector-moneda"><strong>Selecciona tu moneda</strong></label>
+      <select id="selector-moneda">
+        <option value="COP">COP 🇨🇴</option>
+        <option value="USD">USD 🇺🇸</option>
+        <option value="EUR">EUR 🇪🇺</option>
+        <option value="MXN">MXN 🇲🇽</option>
+        <option value="ARS">ARS 🇦🇷</option>
+        <option value="BRL">BRL 🇧🇷</option>
+        <option value="GBP">GBP 🇬🇧</option>
+        <option value="CLP">CLP 🇨🇱</option>
+        <option value="PEN">PEN 🇵🇪</option>
+      </select>
+    </div>
+
+    <button onclick="guardarPreferencias()" class="btn-guardar-moneda">
+      Guardar
+    </button>
+  </div>
+</div>
+
+
+
+
+
+
 
 
   </div>
@@ -65,7 +118,6 @@
     </button>
   </div>
 </div>
-
   
 </section>
 
@@ -144,23 +196,6 @@
 </footer>
 
 
-
-
-<!-- MODAL PARA CAMBIAR IDIOMA Y MONEDA -->
-<script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const barra = document.getElementById('barra-fija');
-    const offsetTop = barra.offsetTop;
-
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > offsetTop) {
-        barra.classList.add('fijo', 'compacto');
-      } else {
-        barra.classList.remove('fijo', 'compacto');
-      }
-    });
-  });
-</script>
 
 
 </body>

@@ -1,3 +1,4 @@
+// ✅ Definición de productos turísticos
 const productos = [
   {
     ciudad: "San Andrés",
@@ -29,140 +30,128 @@ const productos = [
     ciudad: "Santa Marta",
     nombre: "Tour a Ciudad Perdida",
     tipo: "tour",
-    imagen: "img/ciudadperdida.jpg",
+    imagen: "img/santamarta.jpg",
     imagenes: [
-      "img/ciudadperdida.jpg",
-      "img/ciudadperdida2.jpg",
-      "img/ciudadperdida3.jpg"
+      "img/santamarta.jpg",
+      "img/santamarta2.jpg",
+      "img/santamarta3.jpg"
     ],
     precioCOP: 800000,
     descripcion: "Aventura de varios días en la Sierra Nevada hasta Ciudad Perdida, una experiencia mágica llena de historia y naturaleza."
   },
-  {
-    ciudad: "Medellín",
-    nombre: "Explorando Medellín en 2 días",
-    tipo: "tour",
-    imagen: "img/medellin.jpg",
-    imagenes: [
-      "img/medellin.jpg",
-      "img/medellin2.jpg",
-      "img/medellin3.jpg"
-    ],
-    precioCOP: 950000,
-    descripcion: "Recorre Medellín como nunca antes: Graffitour, metrocable, parques, museos y lo mejor de la gastronomía paisa."
-  },
-  {
-    ciudad: "Bogotá",
-    nombre: "Aventura en la Candelaria",
-    tipo: "pasadía",
-    imagen: "img/bogota.jpg",
-    imagenes: [
-      "img/bogota.jpg",
-      "img/bogota2.jpg",
-      "img/bogota3.jpg"
-    ],
-    precioCOP: 1200000,
-    descripcion: "Explora el centro histórico de Bogotá con guías locales. Arte, historia, gastronomía y mucha cultura en un solo día."
-  },
-  {
-    ciudad: "Cartagena",
-    nombre: "Tour por la Ciudad Amurallada",
-    tipo: "tour",
-    imagen: "img/cartagena.jpg",
-    imagenes: [
-      "img/cartagena.jpg",
-      "img/cartagena2.jpg",
-      "img/cartagena3.jpg"
-    ],
-    precioCOP: 450000,
-    descripcion: "Déjate llevar por la magia de las calles coloniales de Cartagena. Tour guiado con transporte y degustaciones incluidas."
-  },
-  {
-    ciudad: "Santa Marta",
-    nombre: "Tayrona - Naturaleza en su máxima expresión",
-    tipo: "viaje",
-    imagen: "img/tayrona.jpg",
-    imagenes: [
-      "img/tayrona.jpg",
-      "img/tayrona2.jpg",
-      "img/tayrona3.jpg"
-    ],
-    precioCOP: 600000,
-    descripcion: "Descubre las mejores playas del Parque Tayrona, camina por senderos naturales y vive la selva caribeña."
-  },
-  {
-    ciudad: "San Andrés",
-    nombre: "Snorkeling en el Paraíso",
-    tipo: "viaje",
-    imagen: "img/snorkeling.jpg",
-    imagenes: [
-      "img/snorkeling.jpg",
-      "img/snorkeling2.jpg",
-      "img/snorkeling3.jpg"
-    ],
-    precioCOP: 300000,
-    descripcion: "Sumérgete en los arrecifes de San Andrés con nuestro tour de snorkeling. Equipo, guía y traslados incluidos."
-  },
-  {
-    ciudad: "Medellín",
-    nombre: "Tour cultural en Comuna 13",
-    tipo: "pasadía",
-    imagen: "img/comuna13.jpg",
-    imagenes: [
-      "img/comuna13.jpg",
-      "img/comuna13_2.jpg",
-      "img/comuna13_3.jpg"
-    ],
-    precioCOP: 200000,
-    descripcion: "Conoce la historia de transformación de la Comuna 13 con guías locales, música urbana, arte callejero y comida típica."
-  },
-  {
-    ciudad: "Cali",
-    nombre: "Salsa y Cultura en Cali",
-    tipo: "tour",
-    imagen: "img/cali.jpg",
-    imagenes: [
-      "img/cali.jpg",
-      "img/cali2.jpg",
-      "img/cali3.jpg"
-    ],
-    precioCOP: 200000,
-    descripcion: "Vive la energía de Cali con clases de salsa, visitas a sitios emblemáticos y una noche de rumba inolvidable."
-  }
 ];
 
 
-
+// ✅ Abre el modal con ID "modal-moneda"
 function abrirModalIdiomaMoneda() {
   const modal = document.getElementById('modal-moneda');
-  if (modal) modal.classList.remove('oculto');
+  if (modal) {
+    modal.classList.remove('oculto');
+    modal.style.display = 'flex';
+  }
 }
 
+// ✅ Cierra el modal
 function cerrarModalIdiomaMoneda() {
   const modal = document.getElementById('modal-moneda');
-  if (modal) modal.classList.add('oculto');
+  if (modal) {
+    modal.classList.add('oculto');
+    modal.style.display = 'none';
+  }
+}
+
+// ✅ Agrega evento para abrir modal desde botón o ícono
+// Ejemplo: botón con id "abrir-configuracion"
+document.addEventListener('DOMContentLoaded', () => {
+  const btnAbrir = document.getElementById('abrir-configuracion');
+  if (btnAbrir) {
+    btnAbrir.addEventListener('click', abrirModalIdiomaMoneda);
+  }
+});
+
+
+
+const simbolos = {
+  COP: "$", USD: "US$", EUR: "€", MXN: "MX$",
+  ARS: "AR$", BRL: "R$", GBP: "£", CLP: "CLP$", PEN: "S/"
+};
+
+function normalizarTexto(texto) {
+  return texto.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, '').replace(/[^a-z0-9\s]/gi, '');
+}
+
+function obtenerPrecioTexto(producto) {
+  const moneda = localStorage.getItem('monedaSeleccionada') || 'COP';
+  const tasas = JSON.parse(localStorage.getItem('tasasCambio')) || { COP: 1 };
+  const tasa = tasas[moneda] || 1;
+  const simbolo = simbolos[moneda] || '';
+  const precio = producto.precioCOP * tasa;
+
+  return moneda === 'COP'
+    ? `${simbolo} ${Math.round(precio).toLocaleString('es-CO')}`
+    : `${simbolo} ${precio.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+function abrirModalProducto(prod) {
+  const precioTexto = obtenerPrecioTexto(prod);
+  const modal = document.createElement('div');
+  modal.className = 'modal-producto';
+
+  modal.innerHTML = `
+    <div class="contenido-modal">
+      <button class="btn-cerrar" onclick="this.closest('.modal-producto').remove()">&times;</button>
+      <h2>${prod.nombre}</h2>
+      <p><strong>${prod.ciudad}</strong> - ${prod.tipo.toUpperCase()}</p>
+      <div class="galeria">
+        ${prod.imagenes.map(img => `<img src="${img}">`).join('')}
+      </div>
+      <p>${prod.descripcion}</p>
+      <p><strong>Precio:</strong> <span>${precioTexto}</span></p>
+      <a href="https://wa.me/573237204014?text=Hola, quiero reservar: ${encodeURIComponent(prod.nombre)} en ${encodeURIComponent(prod.ciudad)}"
+         target="_blank"
+         class="btn-wsp">
+         Reservar por WhatsApp
+      </a>
+    </div>
+  `;
+  document.body.appendChild(modal);
 }
 
 
-function cargarTasaMoneda() {
-  if (monedaSeleccionada === 'COP') {
-    tasaConversion = 1;
-    actualizarPrecios();
-    return;
-  }
+function mostrarProductos(lista) {
+  const contenedor = document.getElementById("lista-productos");
+  contenedor.innerHTML = "";
 
-  fetch('https://open.er-api.com/v6/latest/COP')
-    .then(res => res.json())
-    .then(data => {
-      const rates = data.rates;
-      tasaConversion = rates[monedaSeleccionada] || 1;
-      actualizarPrecios();
-    })
-    .catch(err => {
-      console.error('Error al cargar tasas:', err);
-      tasaConversion = 1;
-      actualizarPrecios();
-    });
+  lista.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "producto animar";
+    card.setAttribute("data-nombre", normalizarTexto(p.nombre));
+    card.setAttribute("data-destino", normalizarTexto(p.ciudad));
+
+    const precioTexto = obtenerPrecioTexto(p);
+
+    card.innerHTML = `
+      <img src="${p.imagen}" alt="${p.nombre}" class="producto-img" />
+      <div class="info">
+        <h3 class="producto-nombre">${p.nombre}</h3>
+        <p class="producto-ciudad"><strong>${p.ciudad}</strong></p>
+        <p class="producto-tipo">${p.tipo.charAt(0).toUpperCase() + p.tipo.slice(1)}</p>
+        <p class="precio" data-precio-base="${p.precioCOP}"><strong>${precioTexto}</strong></p>
+      </div>
+    `;
+    card.onclick = () => abrirModalProducto(p);
+    contenedor.appendChild(card);
+    setTimeout(() => card.classList.add("visible"), 100);
+  });
+
+  actualizarPrecios();
+}
+
+function actualizarPrecios() {
+  document.querySelectorAll('[data-precio-base]').forEach(el => {
+    const base = parseFloat(el.dataset.precioBase);
+    el.innerHTML = `<strong>${formatearMoneda(base * tasaConversion)}</strong>`;
+  });
 }
 
 function formatearMoneda(valor) {
@@ -172,13 +161,28 @@ function formatearMoneda(valor) {
   }).format(valor);
 }
 
-function actualizarPrecios() {
-  document.querySelectorAll('[data-precio-base]').forEach(el => {
-    const base = parseFloat(el.dataset.precioBase);
-    const convertido = base * tasaConversion;
-    el.innerHTML = `<strong>${formatearMoneda(convertido)}</strong>`;
-  });
+// --- tasas de cambio ---
+function cargarTasaMoneda() {
+  if (monedaSeleccionada === 'COP') {
+    tasaConversion = 1;
+    actualizarPrecios();
+    return;
+  }
+  fetch('https://open.er-api.com/v6/latest/COP')
+    .then(res => res.json())
+    .then(data => {
+      tasaConversion = data.rates?.[monedaSeleccionada] || 1;
+      localStorage.setItem('tasasCambio', JSON.stringify(data.rates));
+      actualizarPrecios();
+    })
+    .catch(() => {
+      tasaConversion = 1;
+      actualizarPrecios();
+    });
 }
+
+let tasaConversion = 1;
+let monedaSeleccionada = localStorage.getItem('monedaSeleccionada') || 'COP';
 
 document.addEventListener('DOMContentLoaded', () => {
   const selector = document.getElementById('selector-moneda');
@@ -186,244 +190,39 @@ document.addEventListener('DOMContentLoaded', () => {
     selector.value = monedaSeleccionada;
     selector.addEventListener('change', e => {
       monedaSeleccionada = e.target.value;
-      localStorage.setItem('moneda', monedaSeleccionada);
+      localStorage.setItem('monedaSeleccionada', monedaSeleccionada);
       cargarTasaMoneda();
     });
   }
-
-  cargarTasaMoneda(); // carga inicial
+  cargarTasaMoneda();
+  mostrarProductos(productos);
 });
 
 
-function aplicarGoogleTranslate(idioma) {
-  const combo = document.querySelector('.goog-te-combo');
-  if (combo) {
-    combo.value = idioma;
-    combo.dispatchEvent(new Event('change'));
-  }
-}
-
-
-function guardarPreferencias() {
-  const selectorMoneda = document.getElementById('selector-moneda');
-  const selectorIdioma = document.getElementById('selector-idioma');
-
-  const moneda = selectorMoneda.value;
-  const idioma = selectorIdioma.value;
-
-  localStorage.setItem('monedaSeleccionada', moneda);
-  localStorage.setItem('idiomaSeleccionado', idioma);
-
-  cerrarModalIdiomaMoneda();
-
-  actualizarTasasDeCambio().then(() => {
-    const nombre = decodeURIComponent(getParametro('nombre') || '').trim();
-    const prod = productos.find(p => normalizarTexto(p.nombre) === normalizarTexto(nombre));
-    const tasas = obtenerTasas();
-
-    if (prod && tasas[moneda]) {
-      const tasa = tasas[moneda];
-      const precioConvertido = prod.precioCOP * tasa;
-
-      localStorage.setItem('precioConvertidoVista', precioConvertido);
-
-      const precioFormateado = new Intl.NumberFormat('es-CO', {
-        style: 'currency',
-        currency: moneda,
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }).format(precioConvertido);
-
-      const precioSpan = document.getElementById("precio-convertido");
-      if (precioSpan) precioSpan.textContent = precioFormateado;
-    }
-
-    actualizarPrecioProducto();
-  });
-
-  aplicarGoogleTranslate(idioma);
-}
 
 
 
 
 
-localStorage.setItem('productosJexp', JSON.stringify(productos));
-
-let favoritos = JSON.parse(localStorage.getItem('favoritosJexp')) || [];
-
-function normalizarTexto(texto) {
-  return texto.toLowerCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // elimina tildes
-    .replace(/[^a-z0-9\s]/gi, ""); // elimina caracteres especiales
-}
-
-function mostrarProductos(lista) {
-  const contenedor = document.getElementById("lista-productos");
-  const noResult = document.getElementById("no-result");
-
-  if (!contenedor) return;
-
-  contenedor.innerHTML = "";
-
-  if (!lista.length) {
-    if (noResult) noResult.style.display = "block";
-    return;
-  }
-
-  if (noResult) noResult.style.display = "none";
-
-  lista.forEach((p, idx) => {
-    const card = document.createElement("div");
-    card.className = "producto animar";
-    card.setAttribute("data-nombre", normalizarTexto(p.nombre));
-    card.setAttribute("data-destino", normalizarTexto(p.ciudad));
-
-    card.innerHTML = `
-      <img src="${p.imagen}" alt="${p.nombre}" class="producto-img" />
-      <div class="info">
-        <h3 class="producto-nombre">${p.nombre}</h3>
-        <p class="producto-ciudad"><strong>${p.ciudad}</strong></p>
-        <p class="producto-tipo">${p.tipo.charAt(0).toUpperCase() + p.tipo.slice(1)}</p>
-<p class="precio" data-precio-base="${p.precioCOP}">
-  <strong>${formatearMoneda(p.precioCOP * tasaConversion)}</strong>
-</p>
-
-        </p>
-      </div>
-    `;
-
-card.onclick = () => {
-  try {
-    const moneda = localStorage.getItem('monedaSeleccionada') || 'COP';
-    const tasas = JSON.parse(localStorage.getItem('tasasCambio')) || { COP: 1 };
-    const tasa = tasas[moneda] || 1;
-
-    const precioCOP = productos[idx].precioCOP;
-    const precioConvertido = precioCOP * tasa;
-
-    // Guardamos el precio convertido y la moneda usada
-    localStorage.setItem('precioConvertidoVista', precioConvertido.toFixed(2));
-
-
-    // Abrimos el producto
-    const nombreURL = encodeURIComponent(productos[idx].nombre);
-    window.open(`producto.html?nombre=${nombreURL}`, "_blank");
-  } catch (err) {
-    console.error("Error al abrir el producto:", err);
-  }
-};
 
 
 
-    contenedor.appendChild(card);
-    setTimeout(() => card.classList.add("visible"), 100);
-  });
-
-  actualizarPrecios(); // Siempre necesario
-}
 
 
-function toggleFavorito(nombre) {
-  if (favoritos.includes(nombre)) {
-    favoritos = favoritos.filter(f => f !== nombre);
-  } else {
-    favoritos.push(nombre);
-  }
-  localStorage.setItem('favoritosJexp', JSON.stringify(favoritos));
-  filtrarProductos();
-}
-
-function compartirActividad(nombre, ciudad, imagen) {
-  const url = window.location.href;
-  const text = `¡Mira esta actividad en Jexpedition! ${nombre} en ${ciudad} ${url}`;
-  if (navigator.share) {
-    navigator.share({ title: nombre, text, url });
-  } else {
-    prompt('Copia y comparte:', text);
-  }
-}
-
-function verDetalles(idx) {
-  const p = productos[idx];
-  // Vista nueva reemplazando el contenido del body
-  document.body.innerHTML = `
-    <div class="vista-producto" style="padding: 24px; max-width: 960px; margin: auto; font-family: 'Segoe UI', sans-serif;">
-      <button onclick="location.reload()" style="background:none;border:none;color:#1e90ff;font-size:1.1em;cursor:pointer;margin-bottom:20px;">← Volver</button>
-      
-      <h1 style="margin-bottom:8px;">${p.nombre}</h1>
-      <p style="font-size:1.1em;margin:0 0 18px 0;"><strong>${p.ciudad}</strong> - ${p.tipo.toUpperCase()}</p>
-
-      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
-        ${p.imagenes.map((img, i) => `
-          <img src="${img}" onclick="verImagenCompleta('${p.nombre.replace(/'/g, "\\'")}', ${i})" alt="${p.nombre}" style="flex: 1 1 280px; max-width: 100%; border-radius: 12px; object-fit: cover; cursor: pointer;" />
-        `).join('')}
-      </div>
-
-<p style="font-size:1.2em;" class="precio" data-precio-base="${p.precioCOP}">
-  <strong>Precio:</strong> ${formatearMoneda(p.precioCOP * tasaConversion)}
-</p>
 
 
-      <p style="margin:16px 0;">Una experiencia inolvidable en <strong>${p.ciudad}</strong>. ¡Reserva ya y disfruta cada momento!</p>
 
-      <a href="https://wa.me/573237204014?text=Hola, quiero reservar: ${encodeURIComponent(p.nombre)} en ${p.ciudad}" 
-         class="cta-wsp" 
-         style="display:inline-block;margin-top:10px;text-decoration:none;font-weight:bold;padding:12px 24px;border-radius:30px;background:#25d366;color:#fff;box-shadow:0 2px 8px rgba(37,211,102,0.2);">
-         Reservar por WhatsApp
-      </a>
-    </div>
-  `;
-  actualizarPrecios();
-}
 
-window.verImagenCompleta = function(nombre, idx) {
-  const prod = productos.find(p => p.nombre === nombre);
-  const imagenes = prod?.imagenes?.length ? prod.imagenes : [prod.imagen];
-  let current = idx;
 
-  const existente = document.getElementById('modal-lightbox');
-  if (existente) existente.remove();
 
-  const lb = document.createElement('div');
-  lb.id = 'modal-lightbox';
-  lb.style = `
-    position:fixed;
-    top:0; left:0; width:100vw; height:100vh;
-    background:rgba(0,0,0,0.95);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:100000;
-    flex-direction:column;
-  `;
 
-  function render() {
-    lb.innerHTML = `
-      <button id="lb-prev" ...>←</button>
-      <img src="${imagenes[current]}" style="..." />
-      <button id="lb-next" ...>→</button>
-      <button id="lb-close" ...>×</button>
-    `;
-  }
 
-  function cerrar() {
-    document.removeEventListener('keydown', keyHandler);
-    lb.remove();
-  }
 
-  function keyHandler(e) {
-    if (e.key === 'ArrowLeft') { current = (current - 1 + imagenes.length) % imagenes.length; render(); }
-    if (e.key === 'ArrowRight') { current = (current + 1) % imagenes.length; render(); }
-    if (e.key === 'Escape') cerrar();
-  }
 
-  document.addEventListener('keydown', keyHandler);
-  lb.onclick = e => { if (e.target === lb) cerrar(); };
 
-  document.body.appendChild(lb);
-  render();
-};
+
+
+
 
 window.buscarActividades = function() {
   const texto = normalizarTexto(document.getElementById("search").value.trim());
@@ -728,9 +527,4 @@ window.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('resize', posicionarSugerencias);
   window.addEventListener('scroll', posicionarSugerencias, true);
 });
-
-
-let tasaConversion = 1;
-let monedaSeleccionada = localStorage.getItem('moneda') || 'COP';
-
 

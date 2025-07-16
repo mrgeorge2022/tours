@@ -39,7 +39,95 @@ const productos = [
     precioCOP: 800000,
     descripcion: "Aventura de varios días en la Sierra Nevada hasta Ciudad Perdida, una experiencia mágica llena de historia y naturaleza."
   },
+  {
+  ciudad: "San Andrés",
+  nombre: "Tour Acuático en Johnny Cay",
+  tipo: "tour",
+  imagen: "img/sanandres2.jpg",
+  imagenes: [
+    "img/sanandres2.jpg",
+    "img/sanandres3.jpg",
+    "img/sanandres.jpg"
+  ],
+  precioCOP: 150000,
+  descripcion: "Explora Johnny Cay con guía local, disfruta de playas cristalinas, snorkeling y almuerzo típico isleño."
+},
+{
+  ciudad: "Cartagena",
+  nombre: "Recorrido en Chiva Rumbera",
+  tipo: "pasadía",
+  imagen: "img/baru2.jpg",
+  imagenes: [
+    "img/baru2.jpg",
+    "img/baru.jpg",
+    "img/baru3.jpg"
+  ],
+  precioCOP: 70000,
+  descripcion: "Vive la fiesta cartagenera en una chiva rumbera con música, bebidas, y paradas por sitios emblemáticos."
+},
+{
+  ciudad: "Santa Marta",
+  nombre: "Día de Playa en Bahía Concha",
+  tipo: "pasadía",
+  imagen: "img/santamarta2.jpg",
+  imagenes: [
+    "img/santamarta2.jpg",
+    "img/santamarta.jpg",
+    "img/santamarta3.jpg"
+  ],
+  precioCOP: 85000,
+  descripcion: "Relájate en Bahía Concha, una joya del Parque Tayrona. Transporte, entrada y refrigerio incluidos."
+},
+{
+  ciudad: "Cartagena",
+  nombre: "Crucero al atardecer con cena",
+  tipo: "viaje",
+  imagen: "img/baru3.jpg",
+  imagenes: [
+    "img/baru3.jpg",
+    "img/baru.jpg",
+    "img/baru2.jpg"
+  ],
+  precioCOP: 180000,
+  descripcion: "Navega por la bahía de Cartagena al atardecer mientras disfrutas de una cena gourmet a bordo."
+},
+{
+  ciudad: "Santa Marta",
+  nombre: "Tour indígena en Sierra Nevada",
+  tipo: "tour",
+  imagen: "img/santamarta3.jpg",
+  imagenes: [
+    "img/santamarta3.jpg",
+    "img/santamarta2.jpg",
+    "img/santamarta.jpg"
+  ],
+  precioCOP: 250000,
+  descripcion: "Adéntrate en la cultura indígena Wiwa en una experiencia única de aprendizaje y conexión con la naturaleza."
+},
+{
+  ciudad: "San Andrés",
+  nombre: "Buceo en arrecifes coralinos",
+  tipo: "pasadía",
+  imagen: "img/sanandres3.jpg",
+  imagenes: [
+    "img/sanandres3.jpg",
+    "img/sanandres.jpg",
+    "img/sanandres2.jpg"
+  ],
+  precioCOP: 220000,
+  descripcion: "Explora el increíble ecosistema submarino de San Andrés con todo el equipo incluido y guía profesional."
+},
+
 ];
+
+
+
+
+
+
+
+
+
 
 
 // ✅ Abre el modal con ID "modal-moneda"
@@ -48,8 +136,10 @@ function abrirModalIdiomaMoneda() {
   if (modal) {
     modal.classList.remove('oculto');
     modal.style.display = 'flex';
+    document.body.classList.add('body-no-scroll'); // 🚫 desactiva scroll
   }
 }
+
 
 // ✅ Cierra el modal
 function cerrarModalIdiomaMoneda() {
@@ -57,8 +147,10 @@ function cerrarModalIdiomaMoneda() {
   if (modal) {
     modal.classList.add('oculto');
     modal.style.display = 'none';
+    document.body.classList.remove('body-no-scroll'); // ✅ vuelve a activar scroll
   }
 }
+
 
 // ✅ Agrega evento para abrir modal desde botón o ícono
 // Ejemplo: botón con id "abrir-configuracion"
@@ -92,30 +184,233 @@ function obtenerPrecioTexto(producto) {
     : `${simbolo} ${precio.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function abrirModalProducto(prod) {
   const precioTexto = obtenerPrecioTexto(prod);
   const modal = document.createElement('div');
   modal.className = 'modal-producto';
 
+  // Evita scroll de fondo
+document.body.classList.add('body-no-scroll');
+
+
   modal.innerHTML = `
     <div class="contenido-modal">
-      <button class="btn-cerrar" onclick="this.closest('.modal-producto').remove()">&times;</button>
-      <h2>${prod.nombre}</h2>
-      <p><strong>${prod.ciudad}</strong> - ${prod.tipo.toUpperCase()}</p>
+<div class="barra-superior-modal">
+  <img src="iconos/volver.png" alt="Cerrar" class="icono-cerrar" onclick="cerrarModalProducto(this)">
+</div>
+
+      
+      <!-- Collage -->
+      <div class="collage-principal">
+        <div class="imagen-grande">
+          <img src="${prod.imagenes[0]}">
+        </div>
+        <div class="imagenes-pequenas">
+          <img src="${prod.imagenes[1]}">
+          <img src="${prod.imagenes[2]}">
+        </div>
+      </div>
+
+      <!-- Galería secundaria -->
       <div class="galeria">
         ${prod.imagenes.map(img => `<img src="${img}">`).join('')}
       </div>
-      <p>${prod.descripcion}</p>
-      <p><strong>Precio:</strong> <span>${precioTexto}</span></p>
-      <a href="https://wa.me/573237204014?text=Hola, quiero reservar: ${encodeURIComponent(prod.nombre)} en ${encodeURIComponent(prod.ciudad)}"
-         target="_blank"
-         class="btn-wsp">
-         Reservar por WhatsApp
-      </a>
+
+      <h2 id="productomodal">${prod.nombre}</h2>
+      <p id="ciudad"><strong>${prod.ciudad}</strong> - ${prod.tipo.toUpperCase()}</p>
+      <span id="precio">${precioTexto}</span>
+
+
+    <!-- ✅ Descripción del producto -->
+    <p class="descripcion-producto">${prod.descripcion}</p>
+
+
+
+
+<div class="reserva-flex">
+  <!-- Contadores -->
+  <div class="contadores">
+    ${[
+      { tipo: "Adultos", edad: "13 o más años" },
+      { tipo: "Niños", edad: "3 a 12 años" },
+      { tipo: "Bebés", edad: "0 a 2 años" },
+      { tipo: "Mascotas", edad: "Cualquier edad" }
+    ].map(({ tipo, edad }) => `
+      <div class="contador" data-tipo="${tipo.toLowerCase()}">
+        <div class="fila-contador">
+          <div class="info-contador">
+            <span class="tipo-contador">${tipo}</span>
+            <span class="edad-contador">${edad}</span>
+          </div>
+          <div class="botones-contador">
+            <button type="button" onclick="modificarContador(this, -1)">−</button>
+            <span class="valor">0</span>
+            <button type="button" onclick="modificarContador(this, 1)">+</button>
+          </div>
+        </div>
+        <div class="campos-nombres"></div>
+      </div>
+    `).join('')}
+  </div>
+
+  <!-- Calendario -->
+  <div class="contenedor-calendario">
+    <div id="fecha-reserva"></div>
+  </div>
+</div>
+
+
+
+
+<!-- Footer fijo -->
+<div class="footer-modal">
+  <div class="contenido-footer">
+    <div class="bloque-precio">
+      <div class="fila-secundaria">
+        <div id="precio-total"
+             data-precio-base="${prod.precioCOP}"
+             data-simbolo="${precioTexto.match(/[^\d.,\s]+/g)?.[0] || '$'}"
+             class="precio-grande">
+          ${precioTexto}
+          <span class="etiqueta-precio">Precio</span>
+        </div>
+
+        <a id="btn-whatsapp"
+           target="_blank"
+           class="btn-wsp">
+           Reservar por WhatsApp
+        </a>
+      </div>
     </div>
+  </div>
+</div>
+
+
+
+
+
+
   `;
   document.body.appendChild(modal);
+
+  // Inicializa Flatpickr
+  if (window.flatpickr) {
+flatpickr("#fecha-reserva", {
+  inline: true,
+  minDate: "today",
+  dateFormat: "Y-m-d"
+});
+
+  }
 }
+
+function modificarContador(btn, delta) {
+  const contador = btn.closest('.contador');
+  const valorSpan = contador.querySelector('.valor');
+  const campos = contador.querySelector('.campos-nombres');
+  const tipo = contador.dataset.tipo;
+  let valor = parseInt(valorSpan.textContent);
+
+  if (delta === 1) {
+    valor++;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.name = `${tipo}-${valor}`;
+    input.placeholder = `Nombre de ${tipo.charAt(0).toUpperCase() + tipo.slice(1)} ${valor}`;
+    input.classList.add('input-nombre');
+    campos.appendChild(input);
+  } else if (delta === -1 && valor > 0) {
+    campos.removeChild(campos.lastElementChild);
+    valor--;
+  }
+
+valorSpan.textContent = valor;
+actualizarPrecioTotal(); // ✅ esta llamada es clave
+
+}
+
+
+function cerrarModalProducto(btn) {
+  const modal = btn.closest('.modal-producto');
+  if (modal) {
+    modal.remove();
+    document.body.classList.remove('body-no-scroll');
+  }
+}
+
+
+
+function actualizarPrecioTotal() {
+  const precioTotalEl = document.getElementById('precio-total');
+  if (!precioTotalEl) return;
+
+  const baseCOP = parseFloat(precioTotalEl.dataset.precioBase) || 0;
+  const simbolo = precioTotalEl.dataset.simbolo || '$';
+
+  const moneda = localStorage.getItem('monedaSeleccionada') || 'COP';
+  const tasas = JSON.parse(localStorage.getItem('tasasCambio')) || { COP: 1 };
+  const tasa = tasas[moneda] || 1;
+
+  // Sumar solo adultos, niños y bebés (excluye mascotas)
+  const totalPersonas = Array.from(document.querySelectorAll('.contador')).reduce((sum, cont) => {
+    const tipo = cont.dataset.tipo;
+    if (tipo === 'mascotas') return sum; // 👈 Ignoramos mascotas
+    const cantidad = parseInt(cont.querySelector('.valor')?.textContent || '0');
+    return sum + cantidad;
+  }, 0);
+
+  const cantidad = totalPersonas > 0 ? totalPersonas : 1;
+  const total = baseCOP * cantidad * tasa;
+
+  const formateado = new Intl.NumberFormat('es-CO', {
+    minimumFractionDigits: moneda === 'COP' ? 0 : 2,
+    maximumFractionDigits: moneda === 'COP' ? 0 : 2
+  }).format(total);
+
+  precioTotalEl.innerHTML = `
+    ${simbolo} ${formateado}
+    <span class="etiqueta-precio">Precio</span>
+  `;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function mostrarProductos(lista) {

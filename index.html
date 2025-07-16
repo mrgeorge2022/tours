@@ -39,7 +39,7 @@
 
 
 <div id="modal-moneda" class="modal-moneda oculto">
-  <div class="modal-contenido">
+  <div class="modal-preferencias">
     <span class="cerrar" onclick="cerrarModalIdiomaMoneda()">&times;</span>
     <h2>Preferencias</h2>
 
@@ -60,7 +60,7 @@
 
     <!-- Sección de moneda -->
     <div class="seccion-modal">
-      <label for="selector-moneda"><strong>Selecciona tu moneda</strong></label>
+     <!--  <label for="selector-moneda"><strong>Selecciona tu moneda</strong></label> -->
       <select id="selector-moneda">
         <option value="COP">COP 🇨🇴</option>
         <option value="USD">USD 🇺🇸</option>
@@ -208,6 +208,12 @@
     });
   });
 </script>
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 
 

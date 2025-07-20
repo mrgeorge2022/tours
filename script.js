@@ -206,16 +206,14 @@ function abrirModalProducto(prod) {
   modal.className = 'modal-producto';
 
   // Evita scroll de fondo
-document.body.classList.add('body-no-scroll');
-
+  document.body.classList.add('body-no-scroll');
 
   modal.innerHTML = `
     <div class="contenido-modal">
-<div class="barra-superior-modal">
-  <img src="iconos/volver.png" alt="Cerrar" class="icono-cerrar" onclick="cerrarModalProducto(this)">
-</div>
+      <div class="barra-superior-modal">
+        <img src="iconos/volver.png" alt="Cerrar" class="icono-cerrar" onclick="cerrarModalProducto(this)">
+      </div>
 
-      
       <!-- Collage -->
       <div class="collage-principal">
         <div class="imagen-grande">
@@ -236,89 +234,268 @@ document.body.classList.add('body-no-scroll');
       <p id="ciudad"><strong>${prod.ciudad}</strong> - ${prod.tipo.toUpperCase()}</p>
       <span id="precio">${precioTexto}</span>
 
+      <p class="descripcion-producto">${prod.descripcion}</p>
 
-    <!-- ✅ Descripción del producto -->
-    <p class="descripcion-producto">${prod.descripcion}</p>
-
-
-
-
-<div class="reserva-flex">
-  <!-- Contadores -->
-  <div class="contadores">
-    ${[
-      { tipo: "Adultos", edad: "13 o más años" },
-      { tipo: "Niños", edad: "3 a 12 años" },
-      { tipo: "Bebés", edad: "0 a 2 años" },
-      { tipo: "Mascotas", edad: "Cualquier edad" }
-    ].map(({ tipo, edad }) => `
-      <div class="contador" data-tipo="${tipo.toLowerCase()}">
-        <div class="fila-contador">
-          <div class="info-contador">
-            <span class="tipo-contador">${tipo}</span>
-            <span class="edad-contador">${edad}</span>
-          </div>
-          <div class="botones-contador">
-            <button type="button" onclick="modificarContador(this, -1)">−</button>
-            <span class="valor">0</span>
-            <button type="button" onclick="modificarContador(this, 1)">+</button>
-          </div>
+      <div class="reserva-flex">
+        <!-- Contadores -->
+        <div class="contadores">
+          ${[
+            { tipo: "Adultos", edad: "13 o más años" },
+            { tipo: "Niños", edad: "3 a 12 años" },
+            { tipo: "Bebés", edad: "0 a 2 años" },
+            { tipo: "Mascotas", edad: "Cualquier edad" }
+          ].map(({ tipo, edad }) => `
+            <div class="contador" data-tipo="${tipo.toLowerCase()}">
+              <div class="fila-contador">
+                <div class="info-contador">
+                  <span class="tipo-contador">${tipo}</span>
+                  <span class="edad-contador">${edad}</span>
+                </div>
+                <div class="botones-contador">
+                  <button type="button" onclick="modificarContador(this, -1)">−</button>
+                  <span class="valor">0</span>
+                  <button type="button" onclick="modificarContador(this, 1)">+</button>
+                </div>
+              </div>
+              <div class="campos-nombres"></div>
+            </div>
+          `).join('')}
         </div>
-        <div class="campos-nombres"></div>
+
+        <!-- Calendario -->
+        <div class="contenedor-calendario">
+          <div id="fecha-reserva"></div>
+        </div>
       </div>
-    `).join('')}
-  </div>
 
-  <!-- Calendario -->
-  <div class="contenedor-calendario">
-    <div id="fecha-reserva"></div>
-  </div>
-</div>
+      <!-- Footer fijo -->
+      <div class="footer-modal">
+        <div class="contenido-footer">
+          <div class="bloque-precio">
+            <div class="fila-secundaria">
+              <div id="precio-total"
+                   data-precio-base="${prod.precioCOP}"
+                   data-simbolo="${precioTexto.match(/[^\d.,\s]+/g)?.[0] || '$'}"
+                   class="precio-grande">
+                ${precioTexto}
+                <span class="etiqueta-precio">Precio</span>
+              </div>
+<a id="btn-whatsapp"
+   target="_blank"
+   class="btn-wsp">
+   Reservar por WhatsApp
+</a>
 
-
-
-
-<!-- Footer fijo -->
-<div class="footer-modal">
-  <div class="contenido-footer">
-    <div class="bloque-precio">
-      <div class="fila-secundaria">
-        <div id="precio-total"
-             data-precio-base="${prod.precioCOP}"
-             data-simbolo="${precioTexto.match(/[^\d.,\s]+/g)?.[0] || '$'}"
-             class="precio-grande">
-          ${precioTexto}
-          <span class="etiqueta-precio">Precio</span>
+            </div>
+          </div>
         </div>
-
-        <a id="btn-whatsapp"
-           target="_blank"
-           class="btn-wsp">
-           Reservar por WhatsApp
-        </a>
       </div>
     </div>
-  </div>
-</div>
-
-
-
-
-
-
   `;
+
   document.body.appendChild(modal);
 
-  // Inicializa Flatpickr
-  if (window.flatpickr) {
-flatpickr("#fecha-reserva", {
-  inline: true,
-  minDate: "today",
-  dateFormat: "Y-m-d"
+
+
+
+const btnWhatsApp = modal.querySelector('#btn-whatsapp');
+const numero = "3024345404";
+
+btnWhatsApp.addEventListener('click', function (e) {
+  const nombreProducto = prod.nombre;
+  const ciudad = prod.ciudad;
+  const tipo = prod.tipo;
+
+  // Obtener fecha del calendario
+  const calendario = flatpickrInstance?.selectedDates?.[0];
+  const fecha = calendario
+    ? calendario.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' })
+    : null;
+
+  const contadores = modal.querySelectorAll('.contador');
+  let cantidades = '';
+  let hayAdultos = false;
+  let hayAlMenosUnNombre = false;
+
+  contadores.forEach(cont => {
+    const tipo = cont.dataset.tipo;
+    const tipoCapitalizado = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+    const cantidad = parseInt(cont.querySelector('.valor').textContent);
+
+    if (tipo === 'adultos' && cantidad > 0) hayAdultos = true;
+    if (cantidad === 0) return;
+
+    cantidades += `*${tipoCapitalizado}:* ${cantidad}\n`;
+
+    // Nombres
+    const camposNombres = cont.querySelectorAll('input');
+    camposNombres.forEach(input => {
+      const nombre = input.value.trim();
+      if (nombre) {
+        cantidades += `${nombre}\n`;
+        hayAlMenosUnNombre = true;
+      }
+    });
+
+    cantidades += `\n`;
+  });
+
+  // ✅ Validaciones antes de continuar
+  if (!hayAdultos) {
+    e.preventDefault();
+    alert('Debes seleccionar al menos 1 adulto para continuar con la reserva.');
+    return;
+  }
+
+  if (!fecha) {
+    e.preventDefault();
+    alert('Por favor, selecciona una fecha para continuar con la reserva.');
+    return;
+  }
+
+  if (!hayAlMenosUnNombre) {
+    e.preventDefault();
+    alert('Por favor, ingresa al menos un nombre para continuar con la reserva.');
+    return;
+  }
+
+  // Precio total
+  const precioTotal = modal.querySelector('#precio-total').textContent.trim();
+
+  // Generar mensaje
+  const mensaje = `*Hola, quiero reservar en Jexpedition*\n\n*${nombreProducto}*\n*${ciudad}* - *${tipo.toUpperCase()}*\n*Fecha:* ${fecha}\n\n${cantidades}*Precio total:* ${precioTexto}`;
+
+  // Enlace a WhatsApp
+  const url = `https://wa.me/57${numero}?text=${encodeURIComponent(mensaje)}`;
+  btnWhatsApp.href = url;
 });
 
+
+
+
+
+
+
+// Define la variable arriba
+let flatpickrInstance;
+
+// Inicializa Flatpickr y guarda la instancia
+if (window.flatpickr) {
+  flatpickrInstance = flatpickr("#fecha-reserva", {
+    inline: true,
+    minDate: "today",
+    dateFormat: "Y-m-d",
+    locale: "es"
+  });
+}
+
+
+
+
+  // Agregar evento para abrir visor en imágenes del collage y galería
+const todasLasImagenes = modal.querySelectorAll('.collage-principal img, .galeria img');
+todasLasImagenes.forEach(img => {
+  const src = img.getAttribute('src');
+  const index = prod.imagenes.indexOf(src);
+  if (index !== -1) {
+    img.addEventListener('click', () => abrirVisorImagenes(prod.imagenes, index));
+  }
+});
+
+
+if (!document.getElementById('visor-imagenes')) {
+  const visor = document.createElement('div');
+  visor.id = 'visor-imagenes';
+  visor.innerHTML = `
+    <div class="fondo-visor" onclick="cerrarVisorImagenes()"></div>
+    <div class="contenido-visor">
+      <button class="btn-navegar prev" onclick="cambiarImagen(-1)">❮</button>
+      <img id="imagen-grande-visor" src="" alt="imagen ampliada">
+      <button class="btn-navegar next" onclick="cambiarImagen(1)">❯</button>
+    </div>
+    <button class="btn-cerrar-visor" onclick="cerrarVisorImagenes()">×</button>
+  `;
+  document.body.appendChild(visor);
+}
+
+}
+
+let imagenesVisor = [];
+let indiceActual = 0;
+
+function abrirVisorImagenes(listaImagenes, indiceInicial) {
+  if (!Array.isArray(listaImagenes) || !listaImagenes[indiceInicial]) {
+    console.error('No se pudo abrir la imagen, lista inválida:', listaImagenes);
+    return;
+  }
+
+  imagenesVisor = listaImagenes;
+  indiceActual = indiceInicial;
+
+  const visor = document.getElementById('visor-imagenes');
+  const img = document.getElementById('imagen-grande-visor');
+
+  if (visor && img) {
+    visor.classList.add('visible');
+    img.src = imagenesVisor[indiceActual];
   }
 }
+
+
+
+function cerrarVisorImagenes() {
+  const visor = document.getElementById('visor-imagenes');
+  if (visor) {
+    visor.classList.remove('visible');
+    document.body.classList.remove('body-no-scroll');
+  }
+}
+
+function cambiarImagen(direccion) {
+  indiceActual += direccion;
+  if (indiceActual < 0) indiceActual = imagenesVisor.length - 1;
+  if (indiceActual >= imagenesVisor.length) indiceActual = 0;
+
+  const imgElemento = document.getElementById('imagen-grande-visor');
+  if (imgElemento) {
+    imgElemento.style.opacity = 0;
+    setTimeout(() => {
+      imgElemento.src = imagenesVisor[indiceActual];
+      imgElemento.style.opacity = 1;
+    }, 200);
+  }
+}
+
+
+// Navegación con teclado dentro del visor
+document.addEventListener('keydown', (e) => {
+  const visor = document.getElementById('visor-imagenes');
+  if (!visor || !visor.classList.contains('visible')) return;
+
+  if (e.key === 'ArrowLeft') {
+    cambiarImagen(-1);
+  } else if (e.key === 'ArrowRight') {
+    cambiarImagen(1);
+  } else if (e.key === 'Escape') {
+    cerrarVisorImagenes();
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function modificarContador(btn, delta) {
   const contador = btn.closest('.contador');
@@ -492,10 +669,6 @@ document.addEventListener('DOMContentLoaded', () => {
   cargarTasaMoneda();
   mostrarProductos(productos);
 });
-
-
-
-
 
 
 

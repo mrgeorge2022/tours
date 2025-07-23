@@ -42,6 +42,94 @@ header {
 
 
 
+/* Estilos básicos para el panel */
+.panel-menu {
+  position: fixed;
+  top: 0;
+  right: 0; /* Cambiar para iniciar desde la derecha */
+  width: 100%; /* Definir el tamaño del panel (ajustable según lo que desees) */
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
+  display: none; /* Inicialmente está oculto */
+  justify-content: flex-start; /* Alineamos el contenido al inicio */
+  align-items: flex-start; /* Alineamos al inicio para que se vea bien */
+  z-index: 1001;
+  overflow-y: auto; /* Si el contenido es largo, permite scroll */
+}
+
+/* Estilo para la ventana del contenido del panel */
+.contenido-panel {
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  border-radius: 0;
+  box-shadow: none;
+  overflow-y: auto;
+  position: relative; /* Para que el botón de cerrar se posicione correctamente */
+}
+
+/* Animación para abrir el panel de derecha a izquierda */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%); /* Empieza desde fuera de la pantalla, a la derecha */
+  }
+  to {
+    transform: translateX(0); /* Termina en su posición normal */
+  }
+}
+
+/* Animación de deslizamiento */
+.panel-menu .contenido-panel {
+  animation: slideInRight 0.5s ease-in-out; /* Aparece deslizándose desde la derecha */
+}
+
+/* Estilo para la sección "Conviértete en Colaborador" */
+.colaborador {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.colaborador h3 {
+  font-size: 24px;
+  color: #333;
+}
+
+.colaborador p {
+  font-size: 16px;
+  color: #555;
+}
+
+.colaborador .btn-colaborador {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 15px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.colaborador .btn-colaborador:hover {
+  background-color: #0056b3;
+}
+
+/* Botón de cerrar */
+.cerrar {
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #333;
+}
+
+
+
+
 
 .logo {
   font-size: 24px;
@@ -324,20 +412,11 @@ header {
   margin-bottom: 20px;
 }
 
-/* Selects */
-.modal-preferencias select {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
-  background-color: #f9f9f9;
-  margin-top: 8px;
-}
+
 
 /* Botón guardar */
 .btn-guardar-moneda {
-  background-color: #1e90ff;
+  background-color: #ff9900;
   color: #fff;
   padding: 12px 20px;
   font-size: 16px;
@@ -350,7 +429,7 @@ header {
 }
 
 .btn-guardar-moneda:hover {
-  background-color: #187bcd;
+  background-color: #db8402;
 }
 
 /* Ocultar por defecto */
@@ -437,39 +516,14 @@ header {
   background-color: #f9fafb;
   font-size: 16px;
   color: #111827;
-  appearance: none;
   transition: border 0.2s;
 }
 
 .modal-preferencias select:focus {
-  border-color: #1e90ff;
   outline: none;
   background-color: #fff;
 }
 
-/* Botón guardar */
-.btn-guardar-moneda {
-  margin-top: 24px;
-  width: 100%;
-  background-color: #1e90ff;
-  color: #fff;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.btn-guardar-moneda:hover {
-  background-color: #1874cc;
-}
-
-/* Oculto por defecto */
-.modal-moneda.oculto {
-  display: none;
-}
 
 
 
@@ -712,7 +766,7 @@ cursor: pointer;
 .contadores {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   margin-top: 20px;
 }
 
@@ -802,7 +856,6 @@ cursor: pointer;
   .reserva-flex {
     flex-direction: row;
     align-items: flex-start;
-    justify-content: space-between;
   }
 
   .contadores,
@@ -942,6 +995,37 @@ cursor: pointer;
 
 
 
+
+/* Resalta los campos con borde rojo */
+.error {
+  background-color: rgba(255, 0, 0, 0.1); /* Fondo ligeramente rojo */
+  transition: border 0.5s ease, background-color 0.5s ease; /* Transición suave */
+}
+
+/* Animación de shake */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(5px); }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+  animation-iteration-count: infinite; /* La animación se repite mientras no se llena el campo */
+}
+
+/* Estilo del calendario cuando no se ha seleccionado una fecha */
+.flatpickr-calendar.inline.error {
+  background-color: rgba(255, 0, 0, 0.1); /* Fondo ligeramente rojo */
+  transition: border 0.5s ease, background-color 0.5s ease; /* Transición suave */
+}
+
+/* Esto hará que el borde y el fondo del calendario se desvanezcan suavemente */
+.flatpickr-calendar.inline {
+  transition: border 0.5s ease, background-color 0.5s ease;
+}
 
 
 
@@ -1267,7 +1351,6 @@ background: #fff;
 /* === Preguntas Frecuentes (FAQ) === */
 #faq-jexp {
   padding: 50px 20px;
-  background: #f9f9f9;
 }
 
 #faq-jexp h2 {

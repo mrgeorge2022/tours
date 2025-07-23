@@ -122,6 +122,19 @@ const productos = [
 
 
 
+// Función para abrir el panel
+function abrirMenu() {
+  const panel = document.getElementById('panelMenu');
+  panel.style.display = 'flex'; // Muestra el panel
+      document.body.classList.add('body-no-scroll'); // 🚫 desactiva scroll
+}
+
+// Función para cerrar el panel
+function cerrarMenu() {
+  const panel = document.getElementById('panelMenu');
+  panel.style.display = 'none'; // Oculta el panel
+      document.body.classList.remove('body-no-scroll'); // ✅ vuelve a activar scroll
+}
 
 
 
@@ -236,37 +249,75 @@ function abrirModalProducto(prod) {
 
       <p class="descripcion-producto">${prod.descripcion}</p>
 
-      <div class="reserva-flex">
-        <!-- Contadores -->
-        <div class="contadores">
-          ${[
-            { tipo: "Adultos", edad: "13 o más años" },
-            { tipo: "Niños", edad: "3 a 12 años" },
-            { tipo: "Bebés", edad: "0 a 2 años" },
-            { tipo: "Mascotas", edad: "Cualquier edad" }
-          ].map(({ tipo, edad }) => `
-            <div class="contador" data-tipo="${tipo.toLowerCase()}">
-              <div class="fila-contador">
-                <div class="info-contador">
-                  <span class="tipo-contador">${tipo}</span>
-                  <span class="edad-contador">${edad}</span>
-                </div>
-                <div class="botones-contador">
-                  <button type="button" onclick="modificarContador(this, -1)">−</button>
-                  <span class="valor">0</span>
-                  <button type="button" onclick="modificarContador(this, 1)">+</button>
-                </div>
-              </div>
-              <div class="campos-nombres"></div>
-            </div>
-          `).join('')}
-        </div>
+<div class="reserva-flex">
+  <!-- Calendario -->
+  <div class="contenedor-calendario">
+    <div id="fecha-reserva"></div>
+  </div>
 
-        <!-- Calendario -->
-        <div class="contenedor-calendario">
-          <div id="fecha-reserva"></div>
+  <!-- Contadores -->
+  <div class="contadores">
+    ${[
+      { tipo: "Adultos", edad: "13 o más años" },
+      { tipo: "Niños", edad: "3 a 12 años" },
+      { tipo: "Bebés", edad: "0 a 2 años" },
+      { tipo: "Mascotas", edad: "Cualquier edad" }
+    ].map(({ tipo, edad }) => `
+      <div class="contador" data-tipo="${tipo.toLowerCase()}">
+        <div class="fila-contador">
+          <div class="info-contador">
+            <span class="tipo-contador">${tipo}</span>
+            <span class="edad-contador">${edad}</span>
+          </div>
+          <div class="botones-contador">
+            <button type="button" onclick="modificarContador(this, -1)">−</button>
+            <span class="valor">0</span>
+            <button type="button" onclick="modificarContador(this, 1)">+</button>
+          </div>
         </div>
+        <div class="campos-nombres"></div>
       </div>
+    `).join('')}
+  </div>
+  <p>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  Reiniciar la animación de "shake": Cada vez que un campo es validado, el restartShake es llamado. Esto permite que el campo "tiemble" hasta que el usuario lo complete.
+
+Animación en el calendario: La clase error se añade al calendario si no hay fecha seleccionada. Cuando la clase error está activa, el calendario recibirá la animación de "shake".
+
+Visibilidad del calendario: Si el calendario está vacío, la página se desplazará suavemente hacia él.
+
+Resumen:
+Animación: Se asegurará de que el calendario "tiemble" si no está completo (fecha no seleccionada).
+
+Desaparecer el rojo: El borde rojo desaparece una vez el usuario selecciona la fecha.
+
+Repetición de la animación: El "shake" se ejecuta de manera continua hasta que el calendario esté correctamente completado.
+
+Con esto, el calendario debería mostrar la animación de "shake" correctamente en PC y móviles. ¡Prueba y dime si ahora se comporta como esperas!
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </p>
+</div>
 
       <!-- Footer fijo -->
       <div class="footer-modal">
@@ -298,8 +349,9 @@ function abrirModalProducto(prod) {
 
 
 
+
 const btnWhatsApp = modal.querySelector('#btn-whatsapp');
-const numero = "3237204014";
+const numero = "3024345404";
 
 btnWhatsApp.addEventListener('click', function (e) {
   const nombreProducto = prod.nombre;
@@ -316,6 +368,9 @@ btnWhatsApp.addEventListener('click', function (e) {
   let cantidades = '';
   let hayAdultos = false;
   let hayAlMenosUnNombre = false;
+
+  // Limpiar errores visuales anteriores
+  modal.querySelectorAll('.shake').forEach(el => el.classList.remove('shake'));
 
   contadores.forEach(cont => {
     const tipo = cont.dataset.tipo;
@@ -340,35 +395,91 @@ btnWhatsApp.addEventListener('click', function (e) {
     cantidades += `\n`;
   });
 
-  // ✅ Validaciones antes de continuar
+  let valid = true;
+
+  // Validar adultos
   if (!hayAdultos) {
-    e.preventDefault();
-    alert('Debes seleccionar al menos 1 adulto para continuar con la reserva.');
-    return;
+    valid = false;
+    const contAdultos = modal.querySelector('.contador[data-tipo="adultos"]');
+    contAdultos.classList.add('error');
+    restartShake(contAdultos); // Ejecuta shake continuo
   }
 
+  // Validar fecha (calendario)
   if (!fecha) {
-    e.preventDefault();
-    alert('Por favor, selecciona una fecha para continuar con la reserva.');
-    return;
+    valid = false;
+    const calendarioEl = modal.querySelector('.flatpickr-calendar.inline'); // Aplica al contenedor del calendario
+    calendarioEl.classList.add('error');
+    restartShake(calendarioEl); // Ejecuta shake en el calendario
   }
 
+  // Validar nombres
   if (!hayAlMenosUnNombre) {
+    valid = false;
+    modal.querySelectorAll('.contador input').forEach(input => {
+      if (input.value.trim() === '') {
+        input.classList.add('error');
+        restartShake(input); // Ejecuta shake continuo
+      }
+    });
+  }
+
+  // Si hay errores, prevenir el envío y hacer scroll
+  if (!valid) {
     e.preventDefault();
-    alert('Por favor, ingresa al menos un nombre para continuar con la reserva.');
+
+    // Scroll al primer campo con error si no está visible
+    const primerError = modal.querySelector('.error');
+    if (primerError && !isElementInViewport(primerError)) {
+      primerError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
     return;
   }
 
-  // Precio total
+  // Generar el mensaje para WhatsApp
   const precioTotal = modal.querySelector('#precio-total').textContent.trim();
-
-  // Generar mensaje
-  const mensaje = `*Hola, quiero reservar en Jexpedition*\n\n*${nombreProducto}*\n*${ciudad}* - *${tipo.toUpperCase()}*\n*Fecha:* ${fecha}\n\n${cantidades}*Precio total:* ${precioTexto}`;
-
-  // Enlace a WhatsApp
+  const mensaje = `*Hola, quiero reservar en Jexpedition*\n\n*${nombreProducto}*\n*${ciudad}* - *${tipo.toUpperCase()}*\n*Fecha:* ${fecha}\n\n${cantidades}*Precio total:* ${precioTotal}`;
   const url = `https://wa.me/57${numero}?text=${encodeURIComponent(mensaje)}`;
   btnWhatsApp.href = url;
 });
+
+// Remover la clase error y shake cuando el usuario llena el campo
+modal.querySelectorAll('input, .flatpickr-input').forEach(input => {
+  input.addEventListener('input', function () {
+    if (input.value.trim() !== '') {
+      input.classList.remove('error', 'shake');
+    }
+  });
+});
+
+// Función para reiniciar la animación de shake
+function restartShake(element) {
+  element.classList.add('shake');
+  
+  // Elimina la clase 'shake' y 'error' después de 0.5 segundos
+  setTimeout(() => {
+    element.classList.remove('shake', 'error');
+  }, 1000); // 500ms es el tiempo de la animación
+}
+
+
+// Función para verificar si el elemento está visible en el viewport
+function isElementInViewport(el) {
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
+}
+
+
+
+
+
+
 
 
 
@@ -562,7 +673,6 @@ function actualizarPrecioTotal() {
 
   precioTotalEl.innerHTML = `
     ${simbolo} ${formateado}
-    <span class="etiqueta-precio">Precio</span>
   `;
 }
 

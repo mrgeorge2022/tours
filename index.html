@@ -28,55 +28,56 @@
     
 <div class="botones-header">
   <button onclick="abrirModalIdiomaMoneda()" aria-label="Cambiar idioma y moneda" class="idioma-moneda-btn">
-    <img src="iconos/idioma.png" alt="Idioma y moneda" class="icono-boton" />
+    <img src="iconos/moneda.png" alt="Idioma y moneda" class="icono-boton" />
   </button>
 
-  <button onclick="abrirMenu()" aria-label="Abrir menú" class="idioma-moneda-btn">
-    <img src="iconos/menu.png" alt="Menú" class="icono-boton" />
-  </button>
+<!-- Botón para abrir el panel -->
+<button onclick="abrirMenu()" aria-label="Abrir menú" class="idioma-moneda-btn">
+  <img src="iconos/menu.png" alt="Menú" class="icono-boton" />
+</button>
+
+<!-- Panel que se abrirá -->
+<div id="panelMenu" class="panel-menu">
+  <div class="contenido-panel">
+    <span class="cerrar" onclick="cerrarMenu()">&times;</span> <!-- Botón para cerrar el panel -->
+    
+    <h2>Información Relevante</h2>
+    
+    <ul>
+      <li><a href="#">Enlace 1: Información importante</a></li>
+      <li><a href="#">Enlace 2: Términos y condiciones</a></li>
+      <li><a href="#">Enlace 3: Política de privacidad</a></li>
+      <li><a href="#">Enlace 4: Contacto</a></li>
+    </ul>
+    
+    <h3>Otras cosas que puedes hacer:</h3>
+    <ul>
+      <li>Realizar una reserva</li>
+      <li>Ver tu historial de pedidos</li>
+      <li>Modificar tu perfil</li>
+    </ul>
+
+    <!-- Sección "Conviértete en Colaborador" -->
+    <div class="colaborador">
+      <h3>¡Conviértete en Colaborador!</h3>
+      <p>¿Te apasiona nuestro servicio? Únete a nosotros como colaborador y disfruta de increíbles beneficios.</p>
+      <a href="#" class="btn-colaborador">Más Información</a>
+    </div>
+  </div>
 </div>
+
+
 
 
 
 <div id="modal-moneda" class="modal-moneda oculto">
   <div class="modal-preferencias">
     <span class="cerrar" onclick="cerrarModalIdiomaMoneda()">&times;</span>
-    <h2>Preferencias</h2>
+    <h2>Moneda</h2>
 
-    <!-- Sección de idioma -->
-    <div class="seccion-modal" id="google_translate_element"></div>
-
-    <div class="seccion-modal">
-      <label for="selector-idioma"><strong>Idioma</strong></label>
-      <select id="selector-idioma">
-        <option value="es">Español 🇪🇸</option>
-        <option value="en">English 🇺🇸</option>
-        <option value="zh">中文 🇨🇳</option>
-        <option value="hi">हिन्दी 🇮🇳</option>
-        <option value="ar">العربية 🇸🇦</option>
-        <option value="fr">Français 🇫🇷</option>
-        <option value="pt">Português 🇧🇷</option>
-        <option value="ru">Русский 🇷🇺</option>
-        <option value="bn">বাংলা 🇧🇩</option>
-        <option value="ja">日本語 🇯🇵</option>
-      </select>
-
-      <button id="btn-translate">🌐 Traducir página</button>
-
-<script>
-  document.getElementById('btn-translate').addEventListener('click', () => {
-    const lang = document.getElementById('select-lang').value;
-    const currentUrl = window.location.href;
-    const translateUrl = `https://translate.google.com/translate?hl=es&sl=auto&tl=${lang}&u=${encodeURIComponent(currentUrl)}`;
-    window.open(translateUrl, '_blank');
-  });
-</script>
-
-    </div>
 
     <!-- Sección de moneda -->
     <div class="seccion-modal">
-      <label for="selector-moneda"><strong>Moneda</strong></label>
       <select id="selector-moneda">
         <option value="COP">COP 🇨🇴</option>
         <option value="USD">USD 🇺🇸</option>
@@ -206,8 +207,7 @@
 
     <div class="redes">
       <a href="https://wa.me/573237204014" target="_blank" aria-label="WhatsApp">WhatsApp</a>
-      <a href="https://instagram.com/" target="_blank" aria-label="Instagram">Instagram</a>
-      <a href="https://facebook.com/" target="_blank" aria-label="Facebook">Facebook</a>
+      <a href="https://www.instagram.com/jexpedition.co/" target="_blank" aria-label="Instagram">Instagram</a>
     </div>
     <p>© 2025 Jexpedition. Todos los derechos reservados.</p>
   </div>

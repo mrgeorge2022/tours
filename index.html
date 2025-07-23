@@ -43,24 +43,40 @@
     <span class="cerrar" onclick="cerrarModalIdiomaMoneda()">&times;</span>
     <h2>Preferencias</h2>
 
+    <!-- Sección de idioma -->
     <div class="seccion-modal" id="google_translate_element"></div>
 
-<select id="selector-idioma">
-  <option value="es">Español 🇪🇸</option>
-  <option value="en">English 🇺🇸</option>
-  <option value="zh">中文 🇨🇳</option>
-  <option value="hi">हिन्दी 🇮🇳</option>
-  <option value="ar">العربية 🇸🇦</option>
-  <option value="fr">Français 🇫🇷</option>
-  <option value="pt">Português 🇧🇷</option>
-  <option value="ru">Русский 🇷🇺</option>
-  <option value="bn">বাংলা 🇧🇩</option>
-  <option value="ja">日本語 🇯🇵</option>
-</select>
+    <div class="seccion-modal">
+      <label for="selector-idioma"><strong>Idioma</strong></label>
+      <select id="selector-idioma">
+        <option value="es">Español 🇪🇸</option>
+        <option value="en">English 🇺🇸</option>
+        <option value="zh">中文 🇨🇳</option>
+        <option value="hi">हिन्दी 🇮🇳</option>
+        <option value="ar">العربية 🇸🇦</option>
+        <option value="fr">Français 🇫🇷</option>
+        <option value="pt">Português 🇧🇷</option>
+        <option value="ru">Русский 🇷🇺</option>
+        <option value="bn">বাংলা 🇧🇩</option>
+        <option value="ja">日本語 🇯🇵</option>
+      </select>
+
+      <button id="btn-translate">🌐 Traducir página</button>
+
+<script>
+  document.getElementById('btn-translate').addEventListener('click', () => {
+    const lang = document.getElementById('select-lang').value;
+    const currentUrl = window.location.href;
+    const translateUrl = `https://translate.google.com/translate?hl=es&sl=auto&tl=${lang}&u=${encodeURIComponent(currentUrl)}`;
+    window.open(translateUrl, '_blank');
+  });
+</script>
+
+    </div>
 
     <!-- Sección de moneda -->
     <div class="seccion-modal">
-     <!--  <label for="selector-moneda"><strong>Selecciona tu moneda</strong></label> -->
+      <label for="selector-moneda"><strong>Moneda</strong></label>
       <select id="selector-moneda">
         <option value="COP">COP 🇨🇴</option>
         <option value="USD">USD 🇺🇸</option>
@@ -79,6 +95,7 @@
     </button>
   </div>
 </div>
+
 
 
 
@@ -123,12 +140,14 @@
 <!-- CONTENEDOR DE PRODUCTOS (vacío, JS lo llena) -->
 <main id="lista-productos" class="productos"></main>
 
-<div id="no-result" class="no-result" style="display: none;">
-  <p>😕 No se encontraron actividades.<br>¡Contáctanos y te ayudamos a encontrar tu experiencia ideal!</p>
-  <a href="https://wa.me/573237204014?text=Hola, quiero información" class="cta-wsp" target="_blank">
-    Hablar por WhatsApp
-  </a>
-</div>
+<!-- Botón flotante de WhatsApp -->
+<a href="https://wa.me/573237204014?text=Hola%2C%20quiero%20más%20información%20sobre%20Jexpedition" 
+   class="btn-whatsapp" 
+   target="_blank" 
+   aria-label="Chatear por WhatsApp">
+  <img src="iconos/whatsapp.png" alt="WhatsApp" />
+</a>
+
 
 
 

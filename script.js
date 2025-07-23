@@ -299,7 +299,7 @@ function abrirModalProducto(prod) {
 
 
 const btnWhatsApp = modal.querySelector('#btn-whatsapp');
-const numero = "3024345404";
+const numero = "3237204014";
 
 btnWhatsApp.addEventListener('click', function (e) {
   const nombreProducto = prod.nombre;

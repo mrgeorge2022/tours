@@ -351,7 +351,7 @@ Con esto, el calendario debería mostrar la animación de "shake" correctamente 
 
 
 const btnWhatsApp = modal.querySelector('#btn-whatsapp');
-const numero = "3024345404";
+const numero = "573239717041";
 
 btnWhatsApp.addEventListener('click', function (e) {
   const nombreProducto = prod.nombre;

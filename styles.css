@@ -767,7 +767,7 @@ cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .contador {
@@ -831,12 +831,41 @@ cursor: pointer;
 }
 
 .campos-nombres input {
-  width: 95%;
-  margin-top: 6px;
-  padding: 8px;
-  border-radius: 28px;
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  margin: 8px auto 0 auto;
   border: 1px solid #ccc;
+  border-radius: 28px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
 }
+
+.campos-nombres input:focus {
+  border-color: #ff8800;
+  box-shadow: 0 0 0 3px #ff880041;
+  outline: none;
+}
+
+
+
+
+#selecciona-tu-fecha {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center; /* Predeterminado en móviles */
+}
+
+@media (min-width: 768px) {
+  #selecciona-tu-fecha {
+    text-align: center; /* Solo cambia esto en pantallas grandes */
+  }
+}
+
+
 
 .contenedor-calendario {
   display: flex;
@@ -844,6 +873,20 @@ cursor: pointer;
   align-items: center;
   margin: 24px 0;
 }
+
+
+/* Día seleccionado en color naranja */
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.selected:hover {
+  background: orange !important;
+    box-shadow: 0 0 0 3px #ff880041 !important;
+  border-color: orange !important;
+  color: white !important;
+}
+
 
 .reserva-flex {
   display: flex;
@@ -885,6 +928,150 @@ cursor: pointer;
     transform: scale(1.2);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.datos-titular {
+  background-color: #f9f9f9;
+  padding: 24px;
+  border-radius: 16px;
+  margin-top: 30px;
+  font-family: 'Segoe UI', sans-serif;
+  margin-inline: auto;
+}
+
+.datos-titular h3 {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.datos-titular label {
+  display: block;
+  margin-top: 18px;
+  font-weight: 600;
+  color: #444;
+  font-size: 1rem;
+}
+
+.datos-titular input,
+.datos-titular select {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  margin: 8px auto 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 28px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+}
+
+.datos-titular input:focus,
+.datos-titular select:focus {
+  border-color: #ff8800;
+  box-shadow: 0 0 0 3px #ff880041;
+  outline: none;
+}
+
+.datos-titular .grupo-telefono {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.datos-titular .grupo-telefono select {
+  width: 28%;
+  flex-shrink: 0;
+}
+
+.datos-titular .grupo-telefono input {
+  width: 70%;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .datos-titular {
+    padding: 18px;
+    border-radius: 14px;
+    max-width: 95%;
+  }
+
+  .datos-titular h3 {
+    font-size: 1.2rem;
+  }
+
+  .datos-titular label {
+    font-size: 0.95rem;
+    margin-top: 14px;
+  }
+
+  .datos-titular input,
+  .datos-titular select {
+    font-size: 0.95rem;
+  }
+
+  .datos-titular .grupo-telefono {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .datos-titular .grupo-telefono select {
+    width: 30%;
+  }
+
+  .datos-titular .grupo-telefono input {
+    width: 70%;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* === FOOTER DEL MODAL === */
 .footer-modal {

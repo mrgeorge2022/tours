@@ -249,8 +249,11 @@ function abrirModalProducto(prod) {
 
       <p class="descripcion-producto">${prod.descripcion}</p>
 
+
+<p id="selecciona-tu-fecha"><strong>Selecciona tu fecha de reserva</strong></p>
 <div class="reserva-flex">
   <!-- Calendario -->
+
   <div class="contenedor-calendario">
     <div id="fecha-reserva"></div>
   </div>
@@ -279,45 +282,110 @@ function abrirModalProducto(prod) {
       </div>
     `).join('')}
   </div>
-  <p>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  Reiniciar la animación de "shake": Cada vez que un campo es validado, el restartShake es llamado. Esto permite que el campo "tiemble" hasta que el usuario lo complete.
-
-Animación en el calendario: La clase error se añade al calendario si no hay fecha seleccionada. Cuando la clase error está activa, el calendario recibirá la animación de "shake".
-
-Visibilidad del calendario: Si el calendario está vacío, la página se desplazará suavemente hacia él.
-
-Resumen:
-Animación: Se asegurará de que el calendario "tiemble" si no está completo (fecha no seleccionada).
-
-Desaparecer el rojo: El borde rojo desaparece una vez el usuario selecciona la fecha.
-
-Repetición de la animación: El "shake" se ejecuta de manera continua hasta que el calendario esté correctamente completado.
-
-Con esto, el calendario debería mostrar la animación de "shake" correctamente en PC y móviles. ¡Prueba y dime si ahora se comporta como esperas!
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  </p>
 </div>
+
+
+<!-- Datos del titular -->
+<div class="datos-titular">
+  <h3>Datos del titular de la reserva</h3>
+
+  <label for="nombre-titular">Nombre completo:</label>
+  <input type="text" id="nombre-titular" placeholder="">
+
+  <label for="celular-titular">Número de celular:</label>
+  <div class="grupo-telefono">
+<select id="codigo-internacional">
+  <option value="+1">+1 🇺🇸</option>
+  <option value="+1">+1 🇨🇦</option>
+  <option value="+52">+52 🇲🇽</option>
+  <option value="+55">+55 🇧🇷</option>
+  <option value="+54">+54 🇦🇷</option>
+  <option value="+57" selected>+57 🇨🇴</option>
+  <option value="+56">+56 🇨🇱</option>
+  <option value="+58">+58 🇻🇪</option>
+  <option value="+51">+51 🇵🇪</option>
+  <option value="+593">+593 🇪🇨</option>
+  <option value="+53">+53 🇨🇺</option>
+  <option value="+591">+591 🇧🇴</option>
+  <option value="+506">+506 🇨🇷</option>
+  <option value="+507">+507 🇵🇦</option>
+  <option value="+598">+598 🇺🇾</option>
+  <option value="+34">+34 🇪🇸</option>
+  <option value="+49">+49 🇩🇪</option>
+  <option value="+33">+33 🇫🇷</option>
+  <option value="+39">+39 🇮🇹</option>
+  <option value="+44">+44 🇬🇧</option>
+  <option value="+7">+7 🇷🇺</option>
+  <option value="+380">+380 🇺🇦</option>
+  <option value="+48">+48 🇵🇱</option>
+  <option value="+40">+40 🇷🇴</option>
+  <option value="+31">+31 🇳🇱</option>
+  <option value="+32">+32 🇧🇪</option>
+  <option value="+30">+30 🇬🇷</option>
+  <option value="+351">+351 🇵🇹</option>
+  <option value="+46">+46 🇸🇪</option>
+  <option value="+47">+47 🇳🇴</option>
+  <option value="+86">+86 🇨🇳</option>
+  <option value="+91">+91 🇮🇳</option>
+  <option value="+81">+81 🇯🇵</option>
+  <option value="+82">+82 🇰🇷</option>
+  <option value="+62">+62 🇮🇩</option>
+  <option value="+90">+90 🇹🇷</option>
+  <option value="+63">+63 🇵🇭</option>
+  <option value="+66">+66 🇹🇭</option>
+  <option value="+84">+84 🇻🇳</option>
+  <option value="+972">+972 🇮🇱</option>
+  <option value="+60">+60 🇲🇾</option>
+  <option value="+65">+65 🇸🇬</option>
+  <option value="+92">+92 🇵🇰</option>
+  <option value="+880">+880 🇧🇩</option>
+  <option value="+966">+966 🇸🇦</option>
+  <option value="+20">+20 🇪🇬</option>
+  <option value="+27">+27 🇿🇦</option>
+  <option value="+234">+234 🇳🇬</option>
+  <option value="+254">+254 🇰🇪</option>
+  <option value="+212">+212 🇲🇦</option>
+  <option value="+213">+213 🇩🇿</option>
+  <option value="+256">+256 🇺🇬</option>
+  <option value="+233">+233 🇬🇭</option>
+  <option value="+237">+237 🇨🇲</option>
+  <option value="+225">+225 🇨🇮</option>
+  <option value="+221">+221 🇸🇳</option>
+  <option value="+255">+255 🇹🇿</option>
+  <option value="+249">+249 🇸🇩</option>
+  <option value="+218">+218 🇱🇾</option>
+  <option value="+216">+216 🇹🇳</option>
+  <option value="+61">+61 🇦🇺</option>
+  <option value="+64">+64 🇳🇿</option>
+  <option value="+679">+679 🇫🇯</option>
+  <option value="+675">+675 🇵🇬</option>
+  <option value="+676">+676 🇹🇴</option>
+  <option value="+98">+98 🇮🇷</option>
+  <option value="+964">+964 🇮🇶</option>
+  <option value="+962">+962 🇯🇴</option>
+  <option value="+961">+961 🇱🇧</option>
+  <option value="+965">+965 🇰🇼</option>
+  <option value="+971">+971 🇦🇪</option>
+  <option value="+968">+968 🇴🇲</option>
+  <option value="+974">+974 🇶🇦</option>
+  <option value="+973">+973 🇧🇭</option>
+  <option value="+967">+967 🇾🇪</option>
+</select>
+
+    <input type="tel" id="celular-titular" placeholder="Numero Telefonico" maxlength="15">
+  </div>
+
+  <label for="ubicacion-titular">Lugar donde se encuentra:</label>
+  <input type="text" id="ubicacion-titular" placeholder="Ciudad o región">
+
+  <label for="direccion-titular">Dirección, hotel o apartamento:</label>
+  <input type="text" id="direccion-titular" placeholder="Ej: Calle, Hotel, Apto 301 ">
+</div>
+
+
+
+
+
 
       <!-- Footer fijo -->
       <div class="footer-modal">
@@ -347,6 +415,26 @@ Con esto, el calendario debería mostrar la animación de "shake" correctamente 
   document.body.appendChild(modal);
 
 
+// Validaciones en tiempo real: titular
+const inputNombreTitular = modal.querySelector('#nombre-titular');
+const inputCelularTitular = modal.querySelector('#celular-titular');
+
+inputNombreTitular.addEventListener('input', function () {
+  // Solo letras y espacios
+  this.value = this.value.replace(/[0-9]/g, '');
+
+  // Capitaliza cada palabra
+  this.value = this.value
+    .toLowerCase()
+    .split(' ')
+    .map(p => p.charAt(0).toUpperCase() + p.slice(1))
+    .join(' ');
+});
+
+inputCelularTitular.addEventListener('input', function () {
+  // Solo números
+  this.value = this.value.replace(/\D/g, '');
+});
 
 
 
@@ -358,7 +446,6 @@ btnWhatsApp.addEventListener('click', function (e) {
   const ciudad = prod.ciudad;
   const tipo = prod.tipo;
 
-  // Obtener fecha del calendario
   const calendario = flatpickrInstance?.selectedDates?.[0];
   const fecha = calendario
     ? calendario.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' })
@@ -370,7 +457,7 @@ btnWhatsApp.addEventListener('click', function (e) {
   let hayAlMenosUnNombre = false;
 
   // Limpiar errores visuales anteriores
-  modal.querySelectorAll('.shake').forEach(el => el.classList.remove('shake'));
+  modal.querySelectorAll('.shake, .error').forEach(el => el.classList.remove('shake', 'error'));
 
   contadores.forEach(cont => {
     const tipo = cont.dataset.tipo;
@@ -382,7 +469,6 @@ btnWhatsApp.addEventListener('click', function (e) {
 
     cantidades += `*${tipoCapitalizado}:* ${cantidad}\n`;
 
-    // Nombres
     const camposNombres = cont.querySelectorAll('input');
     camposNombres.forEach(input => {
       const nombre = input.value.trim();
@@ -395,6 +481,19 @@ btnWhatsApp.addEventListener('click', function (e) {
     cantidades += `\n`;
   });
 
+  // Obtener datos del titular
+  const inputNombreTitular = modal.querySelector('#nombre-titular');
+  const inputCelularTitular = modal.querySelector('#celular-titular');
+  const inputUbicacionTitular = modal.querySelector('#ubicacion-titular');
+  const inputDireccionTitular = modal.querySelector('#direccion-titular');
+
+  const nombreTitular = inputNombreTitular.value.trim();
+const codigoInternacional = modal.querySelector('#codigo-internacional').value;
+const celularSinEspacios = inputCelularTitular.value.replace(/\s+/g, '');
+const celularTitular = `${codigoInternacional} ${celularSinEspacios}`;
+  const ubicacionTitular = inputUbicacionTitular.value.trim();
+  const direccionTitular = inputDireccionTitular.value.trim();
+
   let valid = true;
 
   // Validar adultos
@@ -402,47 +501,82 @@ btnWhatsApp.addEventListener('click', function (e) {
     valid = false;
     const contAdultos = modal.querySelector('.contador[data-tipo="adultos"]');
     contAdultos.classList.add('error');
-    restartShake(contAdultos); // Ejecuta shake continuo
+    restartShake(contAdultos);
   }
 
-  // Validar fecha (calendario)
+  // Validar fecha
   if (!fecha) {
     valid = false;
-    const calendarioEl = modal.querySelector('.flatpickr-calendar.inline'); // Aplica al contenedor del calendario
-    calendarioEl.classList.add('error');
-    restartShake(calendarioEl); // Ejecuta shake en el calendario
+    const calendarioEl = modal.querySelector('.flatpickr-calendar.inline');
+    calendarioEl?.classList.add('error');
+    restartShake(calendarioEl);
   }
 
-  // Validar nombres
+  // Validar nombres de personas
   if (!hayAlMenosUnNombre) {
     valid = false;
     modal.querySelectorAll('.contador input').forEach(input => {
       if (input.value.trim() === '') {
         input.classList.add('error');
-        restartShake(input); // Ejecuta shake continuo
+        restartShake(input);
       }
     });
   }
 
-  // Si hay errores, prevenir el envío y hacer scroll
+  // Validar datos del titular
+  if (!nombreTitular) {
+    valid = false;
+    inputNombreTitular.classList.add('error');
+    restartShake(inputNombreTitular);
+  }
+
+const soloNumerosCelular = celularSinEspacios.replace(/\D/g, '');
+if (!soloNumerosCelular || soloNumerosCelular.length < 7) {
+  valid = false;
+  inputCelularTitular.classList.add('error');
+  restartShake(inputCelularTitular);
+}
+
+
+  if (!ubicacionTitular) {
+    valid = false;
+    inputUbicacionTitular.classList.add('error');
+    restartShake(inputUbicacionTitular);
+  }
+
+  if (!direccionTitular) {
+    valid = false;
+    inputDireccionTitular.classList.add('error');
+    restartShake(inputDireccionTitular);
+  }
+
   if (!valid) {
     e.preventDefault();
-
-    // Scroll al primer campo con error si no está visible
     const primerError = modal.querySelector('.error');
     if (primerError && !isElementInViewport(primerError)) {
       primerError.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-
     return;
   }
 
-  // Generar el mensaje para WhatsApp
+  // Generar mensaje WhatsApp
   const precioTotal = modal.querySelector('#precio-total').textContent.trim();
-  const mensaje = `*Hola, quiero reservar en Jexpedition*\n\n*${nombreProducto}*\n*${ciudad}* - *${tipo.toUpperCase()}*\n*Fecha:* ${fecha}\n\n${cantidades}*Precio total:* ${precioTotal}`;
+
+  const mensaje = `*Hola, quiero reservar en Jexpedition*\n\n` +
+    `*${nombreProducto}*\n*${ciudad}* - *${tipo.toUpperCase()}*\n` +
+    `*Fecha:* ${fecha}\n\n` +
+    `${cantidades}` +
+    `*Datos del titular:*\n` +
+    `*Nombre:* ${nombreTitular}\n` +
+    `*Telefono:* ${celularTitular}\n` +
+    `*Lugar:* ${ubicacionTitular}\n` +
+    `*Dirección:* ${direccionTitular}\n\n` +
+    `*Precio total:* ${precioTotal}`;
+
   const url = `https://wa.me/57${numero}?text=${encodeURIComponent(mensaje)}`;
   btnWhatsApp.href = url;
 });
+
 
 // Remover la clase error y shake cuando el usuario llena el campo
 modal.querySelectorAll('input, .flatpickr-input').forEach(input => {
@@ -607,7 +741,6 @@ document.addEventListener('keydown', (e) => {
 
 
 
-
 function modificarContador(btn, delta) {
   const contador = btn.closest('.contador');
   const valorSpan = contador.querySelector('.valor');
@@ -622,16 +755,32 @@ function modificarContador(btn, delta) {
     input.name = `${tipo}-${valor}`;
     input.placeholder = `Nombre de ${tipo.charAt(0).toUpperCase() + tipo.slice(1)} ${valor}`;
     input.classList.add('input-nombre');
+
+    // ❌ Elimina números
+    // ✅ Aplica capitalización
+    input.addEventListener('input', function () {
+      // Quitar números
+      this.value = this.value.replace(/[0-9]/g, '');
+
+      // Formatear texto capitalizado
+      this.value = this.value
+        .toLowerCase()
+        .split(' ')
+        .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1))
+        .join(' ');
+    });
+
     campos.appendChild(input);
   } else if (delta === -1 && valor > 0) {
     campos.removeChild(campos.lastElementChild);
     valor--;
   }
 
-valorSpan.textContent = valor;
-actualizarPrecioTotal(); // ✅ esta llamada es clave
-
+  valorSpan.textContent = valor;
+  actualizarPrecioTotal();
 }
+
+
 
 
 function cerrarModalProducto(btn) {
